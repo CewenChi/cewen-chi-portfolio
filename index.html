@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cewen Chi - Quantitative Finance</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 5rem 0 0 0; /* Add padding-top to body to account for fixed nav bar */
+            background-color: #fff;
+            font-size: 1.000046875rem; /* Adjusted base font size: smaller than 1.00009375rem, larger than original 1rem */
+        }
+        .container {
+            max-width: 1250px; /* Slightly increased max-width for wider content area */
+            margin: 0 auto; /* Center the content */
+            padding: 0 2rem 4rem 2rem; /* Adjusted padding for container, top padding handled by body */
+        }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: normal;
+            margin: 0 0 0.5rem 0;
+            letter-spacing: 0.05em;
+        }
+        h2 {
+            font-size: 1.2rem;
+            font-weight: normal;
+            margin: 0 0 2rem 0;
+            color: #666;
+        }
+        h2 a {
+            color: #666;
+            text-decoration: none;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 2px;
+        }
+        h2 a:hover {
+            color: #000;
+            border-bottom-color: #000;
+        }
+        /* Bachelor degree styling for visual hierarchy */
+        h2.bachelor-degree {
+            font-size: 1.1rem; /* Slightly smaller than master's */
+            margin-top: -1.5rem; /* Reduce gap between degrees */
+            margin-bottom: 2rem;
+        }
+        h2.bachelor-degree a {
+            color: #888; /* Lighter gray for secondary emphasis */
+            border-bottom-color: #ddd;
+        }
+        h2.bachelor-degree a:hover {
+            color: #444;
+            border-bottom-color: #888;
+        }
+        /* Graduation date styling */
+        .graduation-date {
+            font-size: 0.9rem;
+            color: #999;
+            font-weight: normal;
+            margin-left: 0.5em;
+            font-style: italic;
+            white-space: nowrap;
+        }
+        h2.bachelor-degree .graduation-date {
+            font-size: 0.85rem; /* Slightly smaller for bachelor's */
+        }
+        /* Responsive design for degree lines */
+        @media (max-width: 768px) {
+            h2 {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: baseline;
+                gap: 0.5em;
+            }
+            .graduation-date {
+                display: block;
+                width: 100%;
+                margin-left: 0;
+                margin-top: 0.3em;
+            }
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: normal;
+            margin: 3rem 0 1rem 0;
+            color: #000;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.5rem;
+        }
+        p {
+            margin: 0 0 1.5rem 0;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        /* Introduction Section - Ultra Clean */
+        .intro-section {
+            margin: 3rem 0;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+        }
+        .intro-section p {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        .skills {
+            margin-top: 1.5rem;
+            font-size: 0.95rem;
+            color: #555;
+        }
+        /* New Navigation Bar Styles */
+        .main-nav {
+            width: 100%;
+            background-color: #fff; /* White background for minimalist look */
+            padding: 1rem 2rem; /* Reduced padding to make it smaller */
+            border-bottom: none; /* Removed the bottom border */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02); /* Very subtle shadow */
+            position: fixed; /* Make it sticky */
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000; /* Ensure it's above other content */
+            box-sizing: border-box; /* Include padding in width */
+        }
+        .main-nav .nav-links {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            gap: 2em; /* Slightly reduced space between nav items */
+            justify-content: flex-end; /* Align links to the right */
+            font-size: 1rem; /* Slightly smaller font for coordination */
+        }
+        .main-nav a {
+            color: #0056b3; /* Classic blue for links */
+            text-decoration: none;
+            font-weight: normal; /* Changed to normal weight */
+            padding-bottom: 0.2em; /* For hover underline effect */
+            border-bottom: 2px solid transparent;
+            transition: border-bottom 0.2s ease-in-out, color 0.2s ease-in-out;
+            cursor: pointer;
+        }
+        .main-nav a:hover {
+            border-bottom-color: #003d82; /* Darker blue on hover */
+            color: #003d82;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem 1rem;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+            h2 {
+                font-size: 1.1rem;
+            }
+            p {
+                font-size: 1rem;
+            }
+            .main-nav {
+                padding: 0.8rem 1rem; /* Further reduced padding for mobile */
+            }
+            .main-nav .nav-links {
+                gap: 1.2em;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Styles for Competitions Section */
+        .competitions-section {
+            margin-top: 4rem; /* Space from the main content / info */
+        }
+        .competitions-section h3 {
+            font-size: 1.6rem; /* Slightly larger heading for the section */
+            margin-bottom: 1.5rem;
+            color: #000;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.5rem;
+        }
+        .competition-entry {
+            margin-bottom: 2.5em;
+            padding-bottom: 1.5em;
+            border-bottom: 1px dashed #ccc; /* Consistent with existing subtle borders */
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+        }
+        .competition-entry:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        .competition-entry:hover {
+            background-color: #f9f9f9; /* Subtle hover background */
+        }
+        .competition-entry .content-col { min-width: 0; }
+        .competition-entry .year {
+            font-weight: bold;
+            color: #0056b3; /* Consistent blue */
+            font-size: 1rem;
+            margin-bottom: 0.2em;
+        }
+        .competition-entry .name {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 0.3em;
+        }
+        .competition-entry .award {
+            color: #666; /* Consistent grey */
+            font-size: 0.9em;
+            margin-left: 0.5em;
+        }
+        .competition-entry .desc {
+            margin: 0.3em 0 0.7em 0;
+            color: #333;
+        }
+        .competition-entry .tag-list {
+            color: #0056b3; /* Consistent blue */
+            font-size: 0.9em;
+            margin-left: 0.5em;
+            font-style: italic;
+        }
+
+        /* Career Timeline Specific Styles (Moved from pages/career_timeline_page.html) */
+        .career-timeline-section {
+            margin-top: 4rem; /* Space from previous section */
+        }
+        .career-timeline-section h3 {
+            font-size: 1.6rem; /* Consistent heading size */
+            margin-bottom: 1.5rem;
+            color: #000;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.5rem;
+        }
+        .timeline-container {
+            margin: 2em 0;
+            display: flex; /* Enable flexbox for horizontal layout */
+            overflow-x: auto; /* Enable horizontal scrollbar */
+            padding-bottom: 1em; /* Space for the scrollbar */
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+            scrollbar-width: none; /* For Firefox: hides the scrollbar */
+            /* scrollbar-color: #888 #f1f1f1; */ /* Removed as scrollbar-width is none */
+        }
+        /* Custom scrollbar for Webkit browsers */
+        .timeline-container::-webkit-scrollbar {
+            height: 8px; /* Height of horizontal scrollbar */
+            background-color: transparent; /* Make track transparent */
+        }
+        .timeline-container::-webkit-scrollbar-thumb {
+            background-color: rgba(136, 136, 136, 0); /* Invisible by default */
+            border-radius: 4px; /* Slightly rounded */
+        }
+        .timeline-container:hover::-webkit-scrollbar-thumb {
+            background-color: rgba(136, 136, 136, 0.5); /* Semi-transparent on hover */
+        }
+        .timeline-container::-webkit-scrollbar-track {
+            background: transparent; /* Ensure track is always transparent */
+        }
+        .timeline-entry {
+            flex-shrink: 0; /* Prevent entries from shrinking */
+            width: 300px; /* Fixed width for each entry */
+            padding: 1.5em;
+            border: 1px solid #eee; /* Subtle border for separation */
+            margin-right: 1.5em; /* Space between entries */
+            white-space: normal; /* Allow text inside to wrap */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Subtle shadow */
+            background: #fff;
+            vertical-align: top;
+        }
+        .timeline-entry:last-child {
+            margin-right: 0;
+        }
+        .timeline-entry .year {
+            font-weight: 700;
+            color: #0056b3;
+            font-size: 1.1rem;
+            margin-bottom: 0.2em;
+            display: block;
+            line-height: 1;
+        }
+        .timeline-entry .role {
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-bottom: 0.1em;
+            line-height: 1.2;
+            color: #222;
+        }
+        .timeline-entry .company {
+            color: #555;
+            font-size: 0.95rem;
+            margin-left: 0;
+            font-weight: normal;
+            display: block;
+            margin-top: 0.1em;
+        }
+        .timeline-entry .desc {
+            margin: 0.6em 0 0.8em 0;
+            color: #333;
+            line-height: 1.4;
+            font-size: 0.9rem;
+        }
+        .timeline-entry .tag-list {
+            color: #777;
+            font-size: 0.75em;
+            margin-left: 0;
+            font-style: italic;
+            display: block;
+            margin-top: 0.3em;
+        }
+
+        /* Responsive Adjustments for Career Timeline within index.html */
+        @media (max-width: 768px) {
+            .timeline-entry {
+                width: 280px;
+                padding: 1em;
+                margin-right: 1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .timeline-container {
+                flex-wrap: wrap;
+                justify-content: center;
+                overflow-x: hidden;
+                padding-bottom: 0;
+            }
+            .timeline-entry {
+                width: 95%;
+                margin-right: 0;
+                margin-bottom: 1em;
+            }
+            .timeline-entry:last-child {
+                margin-bottom: 0;
+            }
+        }
+
+        /* Styles for Nature Section */
+        .nature-section {
+            margin-top: 4rem; /* Space from previous section */
+        }
+        .nature-section h3 {
+            font-size: 1.6rem; /* Consistent heading size */
+            margin-bottom: 1.5rem;
+            color: #000;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.5rem;
+        }
+        .nature-gallery {
+            display: flex;
+            flex-wrap: nowrap; /* Keep images in one row */
+            gap: 1.5em; /* Space between images */
+            margin-bottom: 2em;
+            overflow-x: auto; /* Allow horizontal scroll */
+            scroll-behavior: smooth; /* Smooth scrolling */
+        }
+        .nature-gallery img {
+            flex: 0 0 auto; /* Prevent shrinking */
+            width: 250px; /* Fixed width for consistency */
+            height: 200px; /* Fixed height */
+            object-fit: cover; /* Maintain aspect ratio */
+            display: block;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            cursor: pointer;
+        }
+        .nature-gallery img:hover {
+            transform: scale(1.15); /* Larger zoom on hover */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            z-index: 10;
+            position: relative;
+        }
+        
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .nature-gallery::-webkit-scrollbar {
+            display: none;
+        }
+        
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .nature-gallery {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+        
+        /* Portfolio Section - Professional Quant Style */
+        .portfolio-section {
+            margin-top: 4rem;
+            margin-bottom: 4rem;
+        }
+        .portfolio-section h3 {
+            font-size: 1.6rem;
+            margin-bottom: 1.5rem;
+            color: #000;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.5rem;
+        }
+        .portfolio-overview {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+            margin-top: 2rem;
+        }
+        
+        /* Portfolio Main Content */
+        .portfolio-main {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+        
+        /* Portfolio Summary - Clean Rows */
+        .portfolio-summary {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 2rem;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid #ddd;
+        }
+        .summary-item {
+            text-align: center;
+        }
+        .summary-label {
+            font-size: 0.75rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+        }
+        .summary-value {
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: #000;
+            font-family: 'Courier New', monospace;
+        }
+        
+        /* Asset Allocation Table */
+        .allocation-table {
+            border-collapse: collapse;
+            width: 100%;
+            font-size: 0.9rem;
+        }
+        .allocation-table th {
+            text-align: left;
+            padding: 0.75rem 0;
+            font-size: 0.75rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border-bottom: 2px solid #333;
+            font-weight: normal;
+        }
+        .allocation-table th:nth-child(2),
+        .allocation-table th:nth-child(3) {
+            text-align: right;
+        }
+        .allocation-table td {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .allocation-table td:nth-child(2),
+        .allocation-table td:nth-child(3) {
+            text-align: right;
+            font-family: 'Courier New', monospace;
+        }
+        .allocation-table tr:last-child td {
+            border-bottom: none;
+        }
+        .asset-symbol {
+            color: #666;
+            font-size: 0.8rem;
+            font-family: 'Courier New', monospace;
+        }
+        
+        /* Portfolio Sidebar */
+        .portfolio-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        /* Chart Container */
+        .chart-wrapper {
+            background: #fafafa;
+            padding: 1.5rem;
+            border: 1px solid #e0e0e0;
+        }
+        .chart-title {
+            font-size: 0.75rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        .chart-container {
+            height: 200px;
+            position: relative;
+        }
+        
+        /* Performance Metrics */
+        .performance-metrics {
+            background: #f8f8f8;
+            padding: 1.5rem;
+            border-left: 3px solid #333;
+        }
+        .metrics-title {
+            font-size: 0.75rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .metric-row:last-child {
+            border-bottom: none;
+        }
+        .metric-label {
+            color: #666;
+            font-size: 0.85rem;
+        }
+        .metric-value {
+            font-family: 'Courier New', monospace;
+            font-weight: 500;
+        }
+        
+        /* Controls */
+        .portfolio-controls {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e0e0e0;
+        }
+        .refresh-btn {
+            background: #333;
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .refresh-btn:hover {
+            background: #555;
+        }
+        .last-update {
+            font-size: 0.7rem;
+            color: #999;
+            margin-top: 0.5rem;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .portfolio-overview {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .portfolio-summary {
+                grid-template-columns: 1fr 1fr;
+                gap: 1rem;
+            }
+        }
+
+        /* Responsive adjustments for nature gallery */
+        @media (max-width: 768px) {
+            .nature-gallery {
+                gap: 1em;
+            }
+            .nature-gallery img {
+                width: 200px;
+                height: 160px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nature-gallery img {
+                width: 150px;
+                height: 120px;
+            }
+            .nature-gallery img:hover {
+                transform: scale(1.1); /* Slightly smaller zoom on mobile */
+            }
+        }
+
+        /* Styles for Contact Section */
+        .contact-section {
+            margin-top: 4rem; /* Space from previous section */
+        }
+        .contact-section h3 {
+            font-size: 1.6rem; /* Consistent heading size */
+            margin-bottom: 1.5rem;
+            color: #000;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.5rem;
+        }
+        .contact-links {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5em;
+            margin-bottom: 2em;
+        }
+        .contact-links li {
+            margin: 0;
+        }
+        .contact-links a {
+            color: #0056b3;
+            text-decoration: none;
+            font-size: 1.1em;
+            transition: color 0.2s ease-in-out;
+        }
+        .contact-links a:hover {
+            text-decoration: underline;
+            color: #003d82;
+        }
+        .contact-label {
+            font-family: 'Trebuchet MS', sans-serif;
+            font-weight: bold; /* Make it bold for emphasis */
+            color: #333; /* A darker color for the label */
+            margin-right: 0.3em;
+        }
+        
+        /* Modal/Lightbox styles for full-size image viewing */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.9);
+            cursor: pointer;
+        }
+        
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .modal-content {
+            animation: zoom 0.3s;
+        }
+        
+        @keyframes zoom {
+            from {transform: translate(-50%, -50%) scale(0.5)}
+            to {transform: translate(-50%, -50%) scale(1)}
+        }
+        
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        /* Modal caption */
+        .modal-caption {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+            text-align: center;
+            color: #ccc;
+            padding: 10px 0;
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    </style>
+</head>
+<body>
+    <nav class="main-nav">
+        <div class="nav-links">
+            <a href="index.html">Main</a>
+            <a href="#competitions-section">Competitions</a>
+            <a href="#career-timeline-section">Career Timeline</a>
+            <a href="#portfolio-section">My Portfolio</a>
+            <a href="#nature-section">Nature</a>
+            <a href="#contact-section">Contact</a>
+        </div>
+    </nav>
+    <div class="container">
+        <h1>Cewen Chi</h1>
+        <h2><a href="https://www.cmu.edu/mscf/employers/index.html" target="_blank">Master of Science in Computational Finance, Carnegie Mellon University</a> <span class="graduation-date">Expected Dec 2025</span></h2>
+        <h2 class="bachelor-degree"><a href="https://students.ucsd.edu/academics/advising/majors-minors/undergraduate-majors.html" target="_blank">Bachelor of Science in Mathematics & Computer Science, University of California at San Diego</a> <span class="graduation-date">Mar 2024</span></h2>
+        
+        <div class="intro-section">
+            <p>
+                Grounded in Carnegie Mellon's quantitative rigor and battle-tested on real desks, my work is guided by three principles: translating complex theory into production-ready code, insisting on full explainability before any model touches capital, and speaking both "trader" and "quant" with equal fluency.
+            </p>
+            
+            <p class="tagline">
+                In short, I build models and factors you can trust.
+            </p>
+            
+            <div class="skills">
+                Programming: Python (NumPy, Pandas, SciPy, Scikit-learn), C++, C, Java, SQL, Stata, Tableau, Power BI<br>
+                Quantitative Skills: Algorithmic Trading, Risk Model Development & Management, Alpha Research, Machine Learning, Deep Learning, Statistical Modeling
+            </div>
+        </div>
+
+        <div class="competitions-section" id="competitions-section">
+            <h3>Competitions</h3>
+            <div class="competition-entry" onclick="window.location.href='pages/homecredit.html'">
+                <div class="content-col">
+                    <div class="year">2024</div>
+                    <div class="name">Home Credit Risk Stability <span class="award">Silver Medal (Top 1.2%)</span></div>
+                    <div class="desc">Engineered stable credit risk models with temporal consistency optimization via custom Gini metric<span class="tag-list">LightGBM, CatBoost, Metric Hack, Polars</span></div>
+                </div>
+            </div>
+            <div class="competition-entry" onclick="window.location.href='pages/optiver.html'">
+                <div class="content-col">
+                    <div class="year">2023</div>
+                    <div class="name">Optiver Trading @ Close <span class="award">Silver Medal (Top 3%)</span></div>
+                    <div class="desc">Systematically forecasted closing auction price dynamics using order book microstructure signals<span class="tag-list">LightGBM, Feature Engineering, Time Series CV, GPU</span></div>
+                </div>
+            </div>
+            <div class="competition-entry" onclick="window.location.href='pages/amex.html'">
+                <div class="content-col">
+                    <div class="year">2022</div>
+                    <div class="name">American Express Default Prediction <span class="award">Gold Medal – Top 0.3 %</span></div>
+                    <div class="desc">Developed quantitative credit risk framework for 120-day default probability assessment<span class="tag-list">LightGBM, XGBoost, CatBoost, Optuna, Ensemble</span></div>
+                </div>
+            </div>
+            <div class="competition-entry" onclick="window.location.href='pages/ubiquant.html'">
+                <div class="content-col">
+                    <div class="year">2022</div>
+                    <div class="name">Ubiquant Market Prediction <span class="award">Silver Medal (Top 5%)</span></div>
+                    <div class="desc">Architected adaptive alpha generation strategy with real-time model recalibration<span class="tag-list">LightGBM, Memory Optimization, 5-Seed Ensemble, Time Series CV</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="career-timeline-section" id="career-timeline-section">
+            <h3>Career Timeline</h3>
+            <div class="timeline-container">
+                <div class="timeline-entry">
+                    <div class="year">2025</div>
+                    <div class="role">Quantitative Analyst <span class="company">@ State Street (Internship)</span></div>
+                    <div class="desc">Jun – Present · 1 mo · Boston, MA · On-site<br>Quantitative Modeling & Development<span class="tag-list">Advanced VaR models, Regression</span></div>
+                </div>
+                <div class="timeline-entry">
+                    <div class="year">2024</div>
+                    <div class="role">Quantitative Researcher <span class="company">@ Guotai Junan Securities (Internship)</span></div>
+                    <div class="desc">Apr – Jul · 4 mos · Shanghai · On-site<br>Factor Models & Validation & Risk Control<span class="tag-list">Factor Models, Risk Control</span></div>
+                </div>
+                <div class="timeline-entry">
+                    <div class="year">2023</div>
+                    <div class="role">Instructor Teaching Assistant <span class="company">@ UCSD Mathematics (Part-time)</span></div>
+                    <div class="desc">Jan – Mar · 1 yr 3 mos · San Diego · On-site<br>Office hour, Proctoring & Grading<span class="tag-list">Probability Theory, Statistics, Algorithm Design</span></div>
+                </div>
+                <div class="timeline-entry">
+                    <div class="year">2023</div>
+                    <div class="role">Analyst <span class="company">@ San Diego Supercomputer Center (Internship)</span></div>
+                    <div class="desc">Sep – Dec · 4 mos · San Diego · Hybrid<br>Machine learning & Deep learning<span class="tag-list">Sentimental Analysis, Deep Learning, Data Analysis</span></div>
+                </div>
+                <div class="timeline-entry">
+                    <div class="year">2023</div>
+                    <div class="role">Lead of Software Engineering <span class="company">@ San Diego Supercomputer Center (Internship)</span></div>
+                    <div class="desc">Jun – Aug · 3 mos · United States · Hybrid<br>Team with 8 Backend/Frontend Developers<span class="tag-list">Leadership, Software Development, Game Algorithm Design</span></div>
+                </div>
+                <div class="timeline-entry">
+                    <div class="year">2023</div>
+                    <div class="role">Quantitative Researcher <span class="company">@ CITIC Securities (Internship)</span></div>
+                    <div class="desc">Apr – Jun · 3 mos · Hybrid<br>Factor Models & Portfolio Construction/Optimization<span class="tag-list">Factor Models, Portfolio Optimization</span></div>
+                </div>
+                <div class="timeline-entry">
+                    <div class="year">2022</div>
+                    <div class="role">Analyst <span class="company">@ Ipsos (Internship)</span></div>
+                    <div class="desc">Jun – Sep · 4 mos · Shanghai · Hybrid<br>Database & SQL & Machine learning<span class="tag-list">SQL, Machine Learning</span></div>
+                </div>
+                <div class="timeline-entry">
+                    <div class="year">2021</div>
+                    <div class="role">Investment Analyst <span class="company">@ Huafa Industrial Co., Ltd.Zhuhai (Internship)</span></div>
+                    <div class="desc">Jun – Sep · 4 mos · Shanghai · On-site<br>Excel & Database & SQL<span class="tag-list">Excel, SQL</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="portfolio-section" id="portfolio-section">
+            <h3>My Portfolio</h3>
+            <div class="portfolio-overview">
+                <div class="portfolio-main">
+                    <div class="portfolio-summary">
+                        <div class="summary-item">
+                            <div class="summary-label">Initial Investment</div>
+                            <div class="summary-value">$20,000</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-label">Market Value</div>
+                            <div class="summary-value" id="current-value">$24,250</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-label">Total Return</div>
+                            <div class="summary-value" id="total-return">+21.25%</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-label">YTD Performance</div>
+                            <div class="summary-value" id="ytd-return">+12.5%</div>
+                        </div>
+                    </div>
+                    
+                    <table class="allocation-table">
+                        <thead>
+                            <tr>
+                                <th>Asset Class</th>
+                                <th>Weight</th>
+                                <th>Market Value</th>
+                            </tr>
+                        </thead>
+                        <tbody id="allocation-tbody">
+                            <!-- Dynamic content populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="portfolio-sidebar">
+                    <div class="chart-wrapper">
+                        <div class="chart-title">Asset Allocation</div>
+                        <div class="chart-container">
+                            <canvas id="allocationChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="performance-metrics">
+                        <div class="metrics-title">Risk Metrics</div>
+                        <div class="metric-row">
+                            <span class="metric-label">Volatility (Annualized)</span>
+                            <span class="metric-value" id="volatility">12.4%</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-label">Sharpe Ratio</span>
+                            <span class="metric-value" id="sharpe">1.42</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-label">Max Drawdown</span>
+                            <span class="metric-value" id="drawdown">-8.2%</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-label">Beta (vs S&P 500)</span>
+                            <span class="metric-value" id="beta">0.89</span>
+                        </div>
+                    </div>
+                    
+                    <div class="portfolio-controls">
+                        <button class="refresh-btn" id="refresh-portfolio">Refresh Data</button>
+                        <div class="last-update" id="last-update">Last updated: --</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nature-section" id="nature-section">
+            <h3>Nature</h3>
+            <div class="nature-gallery">
+                <img src="images/nature/WechatIMG163341.jpg" alt="Nature Photo 1">
+                <img src="images/nature/WechatIMG163342.jpg" alt="Nature Photo 2">
+                <img src="images/nature/WechatIMG163343.jpg" alt="Nature Photo 3">
+                <img src="images/nature/WechatIMG163352.jpg" alt="Nature Photo 4">
+                <img src="images/nature/WechatIMG163353.jpg" alt="Nature Photo 5">
+                <img src="images/nature/WechatIMG163354.jpg" alt="Nature Photo 6">
+                <img src="images/nature/WechatIMG163355.jpg" alt="Nature Photo 7">
+                <img src="images/nature/WechatIMG163356.jpg" alt="Nature Photo 8">
+            </div>
+        </div>
+
+        <div class="contact-section" id="contact-section">
+            <h3>Contact</h3>
+            <ul class="contact-links">
+                <li><span class="contact-label">Mail:</span> <a href="mailto:cewenchi@gmail.com">cewenchi@gmail.com</a></li>
+                <li><span class="contact-label">Phone:</span> <a href="tel:+18585680105">(858)-568-0105</a></li>
+                <li><span class="contact-label">LinkedIn:</span> <a href="https://www.linkedin.com/in/cewenchi/" target="_blank">linkedin.com/in/cewenchi/</a></li>
+            </ul>
+        </div>
+
+        <div class="copyright">© 2025 Cewen Chi. All Rights Reserved.</div>
+    </div>
+    
+    <!-- Modal for displaying full-size images -->
+    <div id="imageModal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="modalImage">
+        <div class="modal-caption" id="modalCaption"></div>
+    </div>
+    
+    <script>
+        // Get the modal
+        var modal = document.getElementById('imageModal');
+        var modalImg = document.getElementById('modalImage');
+        var captionText = document.getElementById('modalCaption');
+        var span = document.getElementsByClassName('close')[0];
+        
+        // Get all nature gallery images
+        var natureImages = document.querySelectorAll('.nature-gallery img');
+        
+        // Add click event to all nature images
+        natureImages.forEach(function(img) {
+            img.onclick = function() {
+                modal.style.display = "block";
+                modalImg.src = this.src;
+                captionText.innerHTML = this.alt;
+            }
+        });
+        
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+        
+        // When the user clicks anywhere on the modal, close it
+        modal.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+        
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                modal.style.display = "none";
+            }
+        });
+    </script>
+    
+    <!-- Chart.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Portfolio Charts JavaScript -->
+    <script>
+        // Portfolio Holdings Configuration
+        const portfolioConfig = {
+            initialInvestment: 20000,
+            startDate: '2025-01-01',
+            holdings: {
+                'SPY': { shares: 18, allocation: 0.40, name: 'U.S. Broad Market Equity', symbol: 'SPY' },
+                'QQQ': { shares: 8, allocation: 0.15, name: 'U.S. Growth/Tech Equity', symbol: 'QQQ' },
+                'IWM': { shares: 5, allocation: 0.05, name: 'U.S. Small-Cap Equity', symbol: 'IWM' },
+                'VXUS': { shares: 13, allocation: 0.10, name: 'International Equity', symbol: 'VXUS' },
+                'LQD': { shares: 17, allocation: 0.10, name: 'Investment-Grade Bonds', symbol: 'LQD' },
+                'IEF': { shares: 21, allocation: 0.10, name: 'Intermediate Treasury Bonds', symbol: 'IEF' },
+                'VNQ': { shares: 12, allocation: 0.05, name: 'Real Estate (REITs)', symbol: 'VNQ' },
+                'CASH': { value: 1000, allocation: 0.05, name: 'Cash & Short-Term', symbol: 'CASH' }
+            }
+        };
+
+        // Initialize portfolio data
+        let portfolioData = {
+            currentValue: 0,
+            totalReturn: 0,
+            ytdReturn: 0,
+            lastUpdate: null,
+            prices: {},
+            historicalData: []
+        };
+
+        // Function to fetch real-time stock prices using Alpha Vantage (free tier)
+        async function fetchStockPrice(symbol) {
+            // For demonstration, using Yahoo Finance API through a CORS proxy
+            // In production, you'd use your own backend or a paid API service
+            const proxyUrl = 'https://api.allorigins.win/raw?url=';
+            const yahooUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}`;
+            
+            try {
+                const response = await fetch(proxyUrl + encodeURIComponent(yahooUrl));
+                const data = await response.json();
+                
+                if (data.chart && data.chart.result && data.chart.result[0]) {
+                    const quote = data.chart.result[0];
+                    const price = quote.meta.regularMarketPrice;
+                    const previousClose = quote.meta.previousClose;
+                    const change = ((price - previousClose) / previousClose) * 100;
+                    
+                    return {
+                        symbol: symbol,
+                        price: price,
+                        change: change,
+                        previousClose: previousClose
+                    };
+                }
+            } catch (error) {
+                console.error(`Error fetching ${symbol}:`, error);
+                // Fallback to mock data for demonstration
+                return getMockPrice(symbol);
+            }
+        }
+
+        // Mock price generator for demonstration when API fails
+        function getMockPrice(symbol) {
+            const basePrices = {
+                'SPY': 450, 'QQQ': 380, 'IWM': 200, 'VXUS': 60,
+                'LQD': 115, 'IEF': 105, 'VNQ': 85
+            };
+            const basePrice = basePrices[symbol] || 100;
+            const randomChange = (Math.random() - 0.5) * 0.02; // ±2% daily change
+            const price = basePrice * (1 + randomChange);
+            
+            return {
+                symbol: symbol,
+                price: price,
+                change: randomChange * 100,
+                previousClose: basePrice
+            };
+        }
+
+        // Update portfolio values based on current prices
+        async function updatePortfolioValues() {
+            let totalValue = 0;
+            const allocations = [];
+            
+            // Fetch all prices
+            for (const [symbol, holding] of Object.entries(portfolioConfig.holdings)) {
+                if (symbol === 'CASH') {
+                    portfolioData.prices[symbol] = { price: 1, change: 0 };
+                    totalValue += holding.value;
+                } else {
+                    const priceData = await fetchStockPrice(symbol);
+                    portfolioData.prices[symbol] = priceData;
+                    totalValue += holding.shares * priceData.price;
+                }
+            }
+            
+            portfolioData.currentValue = totalValue;
+            portfolioData.totalReturn = ((totalValue - portfolioConfig.initialInvestment) / portfolioConfig.initialInvestment) * 100;
+            portfolioData.ytdReturn = portfolioData.totalReturn; // Simplified for demo
+            portfolioData.lastUpdate = new Date();
+            
+            // Save data to localStorage
+            savePortfolioData();
+            
+            // Update UI
+            updatePortfolioUI();
+            updateCharts();
+        }
+
+        // Update the portfolio UI with real-time data
+        function updatePortfolioUI() {
+            // Update summary values
+            document.getElementById('current-value').textContent = `$${portfolioData.currentValue.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
+            document.getElementById('total-return').textContent = `${portfolioData.totalReturn >= 0 ? '+' : ''}${portfolioData.totalReturn.toFixed(1)}%`;
+            document.getElementById('ytd-return').textContent = `${portfolioData.ytdReturn >= 0 ? '+' : ''}${portfolioData.ytdReturn.toFixed(1)}%`;
+            
+            // Update allocation table
+            const tbody = document.getElementById('allocation-tbody');
+            tbody.innerHTML = '';
+            
+            let totalValue = portfolioData.currentValue;
+            
+            for (const [symbol, holding] of Object.entries(portfolioConfig.holdings)) {
+                let value, percentage;
+                
+                if (symbol === 'CASH') {
+                    value = holding.value;
+                } else {
+                    const price = portfolioData.prices[symbol];
+                    value = holding.shares * price.price;
+                }
+                
+                percentage = (value / totalValue) * 100;
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>
+                        ${holding.name}
+                        <br><span class="asset-symbol">${holding.symbol}</span>
+                    </td>
+                    <td>${percentage.toFixed(1)}%</td>
+                    <td>$${value.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</td>
+                `;
+                
+                tbody.appendChild(row);
+            }
+            
+            // Update last update time
+            document.getElementById('last-update').textContent = `Last updated: ${portfolioData.lastUpdate.toLocaleString()}`;
+        }
+
+        // Initialize charts with dynamic data
+        let allocationChart, performanceChart;
+        
+        function updateCharts() {
+            // Update Allocation Chart
+            const labels = [];
+            const data = [];
+            const backgroundColor = [];
+            const colors = ['#0056b3', '#17a2b8', '#28a745', '#ffc107', '#fd7e14', '#6f42c1', '#dc3545', '#6c757d'];
+            
+            let colorIndex = 0;
+            for (const [symbol, holding] of Object.entries(portfolioConfig.holdings)) {
+                labels.push(holding.name);
+                
+                if (symbol === 'CASH') {
+                    data.push(holding.value);
+                } else {
+                    const price = portfolioData.prices[symbol];
+                    data.push(holding.shares * price.price);
+                }
+                
+                backgroundColor.push(colors[colorIndex % colors.length]);
+                colorIndex++;
+            }
+            
+            if (allocationChart) {
+                allocationChart.data.labels = labels;
+                allocationChart.data.datasets[0].data = data;
+                allocationChart.data.datasets[0].backgroundColor = backgroundColor;
+                allocationChart.update();
+            } else {
+                // Initialize allocation chart
+                const allocationCtx = document.getElementById('allocationChart').getContext('2d');
+                allocationChart = new Chart(allocationCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            data: data,
+                            backgroundColor: backgroundColor,
+                            borderWidth: 2,
+                            borderColor: '#fff'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    padding: 20,
+                                    font: {
+                                        size: 12
+                                    }
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'ASSET ALLOCATION',
+                                font: {
+                                    size: 11,
+                                    weight: 'normal',
+                                    family: 'Arial, sans-serif'
+                                },
+                                color: '#999',
+                                padding: {
+                                    top: 0,
+                                    bottom: 20
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Update Performance Chart with simulated historical data
+            if (!performanceChart) {
+                const performanceCtx = document.getElementById('performanceChart').getContext('2d');
+                performanceChart = new Chart(performanceCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                        datasets: [{
+                            label: 'Portfolio Value',
+                            data: [],
+                            borderColor: '#0056b3',
+                            backgroundColor: 'rgba(0, 86, 179, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4,
+                            pointRadius: 4,
+                            pointBackgroundColor: '#0056b3',
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 2
+                        }, {
+                            label: 'S&P 500 Benchmark',
+                            data: [20000, 20400, 20900, 21500, 22000, 22600],
+                            borderColor: '#6c757d',
+                            borderWidth: 2,
+                            borderDash: [5, 5],
+                            fill: false,
+                            tension: 0.4,
+                            pointRadius: 3,
+                            pointBackgroundColor: '#6c757d'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        interaction: {
+                            mode: 'index',
+                            intersect: false
+                        },
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    padding: 20,
+                                    font: {
+                                        size: 12
+                                    }
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'PERFORMANCE YTD',
+                                font: {
+                                    size: 11,
+                                    weight: 'normal',
+                                    family: 'Arial, sans-serif'
+                                },
+                                color: '#999',
+                                padding: {
+                                    top: 0,
+                                    bottom: 20
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.dataset.label || '';
+                                        if (label) {
+                                            label += ': ';
+                                        }
+                                        label += '$' + context.parsed.y.toLocaleString();
+                                        return label;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: false,
+                                ticks: {
+                                    callback: function(value) {
+                                        return '$' + value.toLocaleString();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Update performance chart data
+            const monthlyValues = [];
+            const baseValue = portfolioConfig.initialInvestment;
+            for (let i = 0; i < 6; i++) {
+                const growthRate = portfolioData.totalReturn / 100 / 6;
+                monthlyValues.push(baseValue * (1 + growthRate * i));
+            }
+            monthlyValues[5] = portfolioData.currentValue; // Set current month to actual value
+            
+            performanceChart.data.datasets[0].data = monthlyValues;
+            performanceChart.update();
+        }
+        
+        // Local storage functions for persisting data
+        function savePortfolioData() {
+            try {
+                localStorage.setItem('portfolioData', JSON.stringify({
+                    ...portfolioData,
+                    lastUpdate: portfolioData.lastUpdate.toISOString()
+                }));
+            } catch (e) {
+                console.log('Unable to save portfolio data');
+            }
+        }
+        
+        function loadPortfolioData() {
+            try {
+                const saved = localStorage.getItem('portfolioData');
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    portfolioData.currentValue = data.currentValue || 0;
+                    portfolioData.totalReturn = data.totalReturn || 0;
+                    portfolioData.ytdReturn = data.ytdReturn || 0;
+                    portfolioData.prices = data.prices || {};
+                    portfolioData.lastUpdate = data.lastUpdate ? new Date(data.lastUpdate) : null;
+                    return true;
+                }
+            } catch (e) {
+                console.log('Unable to load portfolio data');
+            }
+            return false;
+        }
+        
+        // Initialize portfolio on page load
+        window.addEventListener('DOMContentLoaded', async function() {
+            // Try to load saved data first
+            const hasData = loadPortfolioData();
+            
+            if (hasData && portfolioData.lastUpdate) {
+                // Use saved data and update UI
+                updatePortfolioUI();
+                updateCharts();
+            } else {
+                // No saved data, fetch fresh data
+                await updatePortfolioValues();
+            }
+        });
+        
+        // Add refresh button event listener
+        window.addEventListener('DOMContentLoaded', function() {
+            const refreshButton = document.getElementById('refresh-portfolio');
+            if (refreshButton) {
+                refreshButton.onclick = async function() {
+                    try {
+                        this.disabled = true;
+                        this.textContent = 'Refreshing...';
+                        await updatePortfolioValues();
+                    } catch (error) {
+                        console.error('Error refreshing portfolio:', error);
+                    } finally {
+                        this.disabled = false;
+                        this.textContent = 'Refresh Data';
+                    }
+                };
+            }
+        });
+    </script>
+    
+<script id="dhws-dataInjector" src="/public/dhws-data-injector.js"></script>
+</body>
+</html>

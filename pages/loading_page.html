@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Loading - Quantitative Finance Site</title>
+    <link rel="stylesheet" href="../css/main.css" />
+    <meta name="description" content="Loading page for Quantitative Finance Site - Modeling the Future of Finance" />
+    <style>
+        /* Loading Page Specific Styles */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, #1e293b 0%, #475569 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 300ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .loading-overlay.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        /* Mathematical Background Pattern */
+        .math-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+        
+        /* Logo Container */
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            z-index: 2;
+        }
+        
+        /* Logo SVG */
+        .qf-logo {
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, #0ea5e9, #0284c7);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 32px rgba(14, 165, 233, 0.3);
+        }
+        
+        .qf-logo svg {
+            width: 80px;
+            height: 80px;
+            fill: white;
+        }
+        
+        /* Tagline */
+        .tagline {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.125rem;
+            color: #e2e8f0;
+            text-align: center;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            margin: 0;
+        }
+        
+        @media (max-width: 640px) {
+            .tagline {
+                font-size: 1rem;
+                padding: 0 1rem;
+            }
+        }
+        
+        /* Electric Blue Spinner */
+        .spinner-container {
+            margin-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .electric-spinner {
+            width: 48px;
+            height: 48px;
+            border: 3px solid rgba(14, 165, 233, 0.2);
+            border-top: 3px solid #0ea5e9;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            box-shadow: 0 0 20px rgba(14, 165, 233, 0.4);
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Loading Text */
+        .loading-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            color: #94a3b8;
+            font-weight: 500;
+            text-align: center;
+        }
+        
+        /* Accessibility: Reduce motion for users who prefer it */
+        @media (prefers-reduced-motion: reduce) {
+            .electric-spinner {
+                animation: none;
+            }
+            
+            .loading-overlay {
+                transition: none;
+            }
+        }
+        
+        /* Mathematical formula animations */
+        .math-formula {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .math-formula:nth-child(2) {
+            animation-delay: -1s;
+        }
+        
+        .math-formula:nth-child(3) {
+            animation-delay: -2s;
+        }
+        
+        .math-formula:nth-child(4) {
+            animation-delay: -3s;
+        }
+        
+        .math-formula:nth-child(5) {
+            animation-delay: -4s;
+        }
+        
+        .math-formula:nth-child(6) {
+            animation-delay: -5s;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+                opacity: 0.1;
+            }
+            50% {
+                transform: translateY(-10px) rotate(2deg);
+                opacity: 0.15;
+            }
+        }
+        
+        /* Statistical chart patterns */
+        .stat-pattern {
+            animation: pulse 4s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.05;
+            }
+            50% {
+                opacity: 0.1;
+            }
+        }
+    </style>
+<script type="module" src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fcewenchi8962back.builtwithrocket.new&_v=0.1.2"></script>
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay" role="main" aria-label="Loading page">
+        <!-- Mathematical Background Patterns -->
+        <div class="math-background">
+            <svg class="w-full h-full" viewBox="0 0 1400 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Advanced Mathematical Formulas -->
+                <text x="150" y="120" class="math-formula" font-family="JetBrains Mono" font-size="28" fill="#0ea5e9">∫₋∞^∞ e^(-x²/2) dx = √(2π)</text>
+                <text x="800" y="180" class="math-formula" font-family="JetBrains Mono" font-size="24" fill="#0ea5e9">E[X] = ∫ x·f(x)dx</text>
+                <text x="250" y="280" class="math-formula" font-family="JetBrains Mono" font-size="22" fill="#0ea5e9">σ² = E[(X-μ)²]</text>
+                <text x="900" y="350" class="math-formula" font-family="JetBrains Mono" font-size="26" fill="#0ea5e9">dS = rSdt + σSdW</text>
+                <text x="180" y="450" class="math-formula" font-family="JetBrains Mono" font-size="20" fill="#0ea5e9">C = S₀N(d₁) - Ke^(-rT)N(d₂)</text>
+                <text x="750" y="520" class="math-formula" font-family="JetBrains Mono" font-size="24" fill="#0ea5e9">VaR = μ - zα·σ·√t</text>
+                <text x="200" y="600" class="math-formula" font-family="JetBrains Mono" font-size="18" fill="#0ea5e9">β = Cov(r_i,r_m)/Var(r_m)</text>
+                <text x="850" y="680" class="math-formula" font-family="JetBrains Mono" font-size="22" fill="#0ea5e9">R_p = ∑w_i·R_i</text>
+                <text x="300" y="750" class="math-formula" font-family="JetBrains Mono" font-size="20" fill="#0ea5e9">Sharpe = (E[R_p] - R_f)/σ_p</text>
+                <text x="700" y="820" class="math-formula" font-family="JetBrains Mono" font-size="19" fill="#0ea5e9">CAPM: E[R_i] = R_f + β_i(E[R_m] - R_f)</text>
+                
+                <!-- Statistical Visualization Elements -->
+                <g class="stat-pattern">
+                    <!-- Scatter Plot Points -->
+                    <circle cx="100" cy="200" r="4" fill="#0ea5e9" opacity="0.6"/>
+                    <circle cx="120" cy="190" r="4" fill="#0ea5e9" opacity="0.6"/>
+                    <circle cx="140" cy="210" r="4" fill="#0ea5e9" opacity="0.6"/>
+                    <circle cx="160" cy="195" r="4" fill="#0ea5e9" opacity="0.6"/>
+                    <circle cx="180" cy="205" r="4" fill="#0ea5e9" opacity="0.6"/>
+                    
+                    <circle cx="1200" cy="400" r="4" fill="#0ea5e9" opacity="0.6"/>
+                    <circle cx="1220" cy="390" r="4" fill="#0ea5e9" opacity="0.6"/>
+                    <circle cx="1240" cy="410" r="4" fill="#0ea5e9" opacity="0.6"/>
+                    <circle cx="1260" cy="395" r="4" fill="#0ea5e9" opacity="0.6"/>
+                    <circle cx="1280" cy="405" r="4" fill="#0ea5e9" opacity="0.6"/>
+                    
+                    <!-- Line Chart Segments -->
+                    <path d="M50 600 L80 580 L110 590 L140 570 L170 585 L200 575" stroke="#0ea5e9" stroke-width="2" fill="none" opacity="0.4"/>
+                    <path d="M1150 700 L1180 680 L1210 690 L1240 670 L1270 685 L1300 675" stroke="#0ea5e9" stroke-width="2" fill="none" opacity="0.4"/>
+                    
+                    <!-- Bar Chart Elements -->
+                    <rect x="50" y="750" width="15" height="40" fill="#0ea5e9" opacity="0.3"/>
+                    <rect x="70" y="730" width="15" height="60" fill="#0ea5e9" opacity="0.3"/>
+                    <rect x="90" y="740" width="15" height="50" fill="#0ea5e9" opacity="0.3"/>
+                    <rect x="110" y="720" width="15" height="70" fill="#0ea5e9" opacity="0.3"/>
+                    
+                    <rect x="1250" y="150" width="15" height="40" fill="#0ea5e9" opacity="0.3"/>
+                    <rect x="1270" y="130" width="15" height="60" fill="#0ea5e9" opacity="0.3"/>
+                    <rect x="1290" y="140" width="15" height="50" fill="#0ea5e9" opacity="0.3"/>
+                    <rect x="1310" y="120" width="15" height="70" fill="#0ea5e9" opacity="0.3"/>
+                </g>
+                
+                <!-- Grid Pattern for Statistical Analysis -->
+                <defs>
+                    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#0ea5e9" stroke-width="0.5" opacity="0.1"/>
+                    </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#grid)"/>
+            </svg>
+        </div>
+        
+        <!-- Main Loading Content -->
+        <div class="logo-container">
+            <!-- Logo -->
+            <div class="qf-logo">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Q Letter -->
+                    <circle cx="30" cy="35" r="20" fill="none" stroke="currentColor" stroke-width="4"/>
+                    <line x1="45" y1="50" x2="52" y2="57" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+                    
+                    <!-- F Letter -->
+                    <path d="M60 20 L60 60 M60 20 L85 20 M60 40 L80 40" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                    
+                    <!-- Mathematical symbols integration -->
+                    <text x="20" y="80" font-family="JetBrains Mono" font-size="12" fill="currentColor" opacity="0.7">∫∂∑</text>
+                </svg>
+            </div>
+            
+            <!-- Tagline -->
+            <p class="tagline">Modeling the Future of Finance</p>
+        </div>
+        
+        <!-- Spinner and Loading Text -->
+        <div class="spinner-container">
+            <div class="electric-spinner" role="status" aria-label="Loading content"></div>
+            <p class="loading-text" aria-live="polite" id="loadingText">Loading…</p>
+        </div>
+    </div>
+
+    <script>
+        // Loading functionality with accessibility and error handling
+        (function() {
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            const loadingText = document.getElementById('loadingText');
+            let loadingComplete = false;
+            let timeoutId;
+            
+            // Loading messages for better UX
+            const loadingMessages = [
+                'Loading…',
+                'Initializing quantitative models…',
+                'Preparing financial analytics…',
+                'Finalizing computational interface…',
+                'Almost ready…'
+            ];
+            
+            let messageIndex = 0;
+            
+            // Update loading messages
+            function updateLoadingMessage() {
+                if (loadingComplete) return;
+                
+                messageIndex = (messageIndex + 1) % loadingMessages.length;
+                if (loadingText) {
+                    loadingText.textContent = loadingMessages[messageIndex];
+                }
+            }
+            
+            // Start message rotation
+            const messageInterval = setInterval(updateLoadingMessage, 800);
+            
+            // Simulate loading process
+            function completeLoading() {
+                loadingComplete = true;
+                clearInterval(messageInterval);
+                
+                if (loadingText) {
+                    loadingText.textContent = 'Loading complete!';
+                }
+                
+                // Fade out with 300ms transition
+                setTimeout(() => {
+                    if (loadingOverlay) {
+                        loadingOverlay.classList.add('fade-out');
+                    }
+                    
+                    // Remove overlay after transition
+                    setTimeout(() => {
+                        if (loadingOverlay && loadingOverlay.parentNode) {
+                            loadingOverlay.parentNode.removeChild(loadingOverlay);
+                        }
+                        
+                        // Redirect to home page or trigger callback
+                        if (window.onLoadingComplete) {
+                            window.onLoadingComplete();
+                        } else {
+                            // Default redirect to home page
+                            window.location.href = 'home_page.html';
+                        }
+                    }, 300);
+                }, 200);
+            }
+            
+            // Auto-complete loading after 3 seconds (can be overridden)
+            timeoutId = setTimeout(completeLoading, 3000);
+            
+            // Expose global function to manually complete loading
+            window.completeLoading = function() {
+                clearTimeout(timeoutId);
+                completeLoading();
+            };
+            
+            // Handle page visibility changes
+            document.addEventListener('visibilitychange', function() {
+                if (document.hidden) {
+                    clearInterval(messageInterval);
+                } else if (!loadingComplete) {
+                    // Resume message updates if still loading
+                    const resumeInterval = setInterval(updateLoadingMessage, 800);
+                    setTimeout(() => clearInterval(resumeInterval), 800);
+                }
+            });
+            
+            // Keyboard accessibility
+            document.addEventListener('keydown', function(e) {
+                // Allow Escape key to skip loading (for development/testing)
+                if (e.key === 'Escape' && !loadingComplete) {
+                    clearTimeout(timeoutId);
+                    completeLoading();
+                }
+            });
+            
+            // Error handling for network issues
+            window.addEventListener('error', function(e) {
+                console.warn('Loading page error:', e);
+                // Continue with loading process
+            });
+            
+            // Prevent context menu during loading for professional appearance
+            document.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+            });
+            
+        })();
+    </script>
+<script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
+</body>
+</html>

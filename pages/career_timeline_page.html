@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Career Timeline - Cewen Chi</title>
+    <style>
+        body {
+            background: #fff;
+            color: #222;
+            font-family: 'Times New Roman', serif;
+            margin: 0;
+            line-height: 1.3;
+            font-size: 16px; /* Base font size */
+        }
+        .container {
+            max-width: 1200px; /* Increased max-width for horizontal content */
+            margin: 0 auto;
+            padding: 2rem 2rem;
+        }
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-top: 0.5em;
+            margin-bottom: 0.5em;
+            color: #111;
+            line-height: 1.1;
+        }
+        .links {
+            margin: 1.5em 0 2em 0;
+            display: flex;
+            gap: 1.5em;
+            flex-wrap: wrap;
+            font-size: 1rem;
+        }
+        a {
+            color: #0056b3;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-bottom 0.1s ease-in-out;
+        }
+        a:hover {
+            border-bottom: 1px solid #0056b3;
+        }
+        .timeline-container {
+            margin: 2em 0;
+            display: flex; /* Enable flexbox for horizontal layout */
+            overflow-x: auto; /* Enable horizontal scrollbar */
+            padding-bottom: 1em; /* Space for the scrollbar */
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+            scrollbar-width: thin; /* Firefox */
+            scrollbar-color: #888 #f1f1f1; /* Firefox */
+        }
+        /* Custom scrollbar for Webkit browsers */
+        .timeline-container::-webkit-scrollbar {
+            height: 8px; /* Height of horizontal scrollbar */
+        }
+        .timeline-container::-webkit-scrollbar-thumb {
+            background: #888; /* Color of scrollbar thumb */
+            border-radius: 10px;
+        }
+        .timeline-container::-webkit-scrollbar-track {
+            background: #f1f1f1; /* Color of scrollbar track */
+        }
+        .timeline-entry {
+            flex-shrink: 0; /* Prevent entries from shrinking */
+            width: 300px; /* Fixed width for each entry */
+            padding: 1.5em;
+            border: 1px solid #eee; /* Subtle border for separation */
+            margin-right: 1.5em; /* Space between entries */
+            white-space: normal; /* Allow text inside to wrap */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Subtle shadow */
+            background: #fff;
+            vertical-align: top;
+        }
+        .timeline-entry:last-child {
+            margin-right: 0;
+        }
+        .year {
+            font-weight: 700;
+            color: #0056b3;
+            font-size: 1.1rem;
+            margin-bottom: 0.2em;
+            display: block;
+            line-height: 1;
+        }
+        .role {
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-bottom: 0.1em;
+            line-height: 1.2;
+            color: #222;
+        }
+        .company {
+            color: #555;
+            font-size: 0.95rem;
+            margin-left: 0;
+            font-weight: normal;
+            display: block;
+            margin-top: 0.1em;
+        }
+        .desc {
+            margin: 0.6em 0 0.8em 0;
+            color: #333;
+            line-height: 1.4;
+            font-size: 0.9rem;
+        }
+        .tag-list {
+            color: #777;
+            font-size: 0.75em;
+            margin-left: 0;
+            font-style: italic;
+            display: block;
+            margin-top: 0.3em;
+        }
+        .copyright {
+            color: #888;
+            font-size: 0.8rem;
+            text-align: center;
+            margin-top: 3em;
+            margin-bottom: 1em;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem 1rem;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+            .links {
+                gap: 1em;
+                font-size: 0.9rem;
+            }
+            .timeline-entry {
+                width: 280px;
+                padding: 1em;
+                margin-right: 1em;
+            }
+            .year {
+                font-size: 1rem;
+            }
+            .role {
+                font-size: 1.15rem;
+            }
+            .company {
+                font-size: 0.9rem;
+            }
+            .desc {
+                font-size: 0.85rem;
+            }
+            .tag-list {
+                font-size: 0.7em;
+            }
+            .copyright {
+                margin-top: 2em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1rem 0.8rem;
+            }
+            h1 {
+                font-size: 1.5rem;
+            }
+            .links {
+                flex-direction: column;
+                gap: 0.8em;
+                font-size: 0.85rem;
+            }
+            .timeline-container {
+                /* On very small screens, stack vertically if preferred, or keep horizontal with scroll */
+                flex-wrap: wrap; /* Allow wrapping to stack if individual entries are too wide */
+                justify-content: center; /* Center items if wrapped */
+                overflow-x: hidden; /* Hide horizontal scroll if wrapped */
+                padding-bottom: 0; /* No padding needed if wrapped */
+            }
+            .timeline-entry {
+                width: 95%; /* Almost full width when stacked */
+                margin-right: 0;
+                margin-bottom: 1em; /* Add vertical margin when stacked */
+            }
+            .timeline-entry:last-child {
+                margin-bottom: 0;
+            }
+            .year {
+                font-size: 0.9rem;
+            }
+            .role {
+                font-size: 1.1rem;
+            }
+            .company {
+                font-size: 0.85rem;
+            }
+            .desc {
+                font-size: 0.8rem;
+            }
+            .tag-list {
+                font-size: 0.65em;
+            }
+            .copyright {
+                margin-top: 1.5em;
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Career Timeline</h1>
+        <div class="links">
+            <a href="home_page.html">Home</a>
+            <a href="competitions_overview_page.html">Competitions</a>
+        </div>
+        <div class="timeline-container">
+            <div class="timeline-entry">
+                <div class="year">2025</div>
+                <div class="role">Quantitative Analyst <span class="company">@ State Street (Internship)</span></div>
+                <div class="desc">1 mo · Boston, MA · On-site<br>Quantitative Modeling & Development<span class="tag-list">Python</span></div>
+            </div>
+            <div class="timeline-entry">
+                <div class="year">2024</div>
+                <div class="role">Quantitative Researcher <span class="company">@ Guotai Junan Securities (Internship)</span></div>
+                <div class="desc">4 mos · Shanghai · On-site<br>Factor Models & Validation & Risk Control<span class="tag-list">Factor Models, Risk Control</span></div>
+        </div>
+            <div class="timeline-entry">
+                <div class="year">2023</div>
+                <div class="role">Instructor Teaching Assistant <span class="company">@ UCSD Mathematics (Part-time)</span></div>
+                <div class="desc">1 yr 3 mos · San Diego · On-site<br>Office hour, Proctoring & Grading<span class="tag-list">Probability Theory, Statistics, Algorithm Design</span></div>
+        </div>
+            <div class="timeline-entry">
+                <div class="year">2023</div>
+                <div class="role">Analyst <span class="company">@ San Diego Supercomputer Center (Internship)</span></div>
+                <div class="desc">4 mos · San Diego · Hybrid<br>Machine learning & Deep learning<span class="tag-list">ML, Deep Learning</span></div>
+            </div>
+            <div class="timeline-entry">
+                <div class="year">2023</div>
+                <div class="role">Lead of Software Engineering <span class="company">@ San Diego Supercomputer Center (Internship)</span></div>
+                <div class="desc">3 mos · United States · Hybrid<br>Team with 8 Backend/Frontend Developers<span class="tag-list">Python, Leadership</span></div>
+            </div>
+            <div class="timeline-entry">
+                <div class="year">2023</div>
+                <div class="role">Quantitative Researcher <span class="company">@ CITIC Securities (Internship)</span></div>
+                <div class="desc">3 mos · Hybrid<br>Factor Models & Portfolio Construction/Optimization<span class="tag-list">Factor Models, Portfolio Optimization</span></div>
+            </div>
+            <div class="timeline-entry">
+                <div class="year">2022</div>
+                <div class="role">Analyst <span class="company">@ Ipsos (Internship)</span></div>
+                <div class="desc">4 mos · Shanghai · Hybrid<br>Database & SQL & Machine learning<span class="tag-list">SQL, Machine Learning</span></div>
+            </div>
+            <div class="timeline-entry">
+                <div class="year">2021</div>
+                <div class="role">Investment Analyst <span class="company">@ Huafa Industrial Co., Ltd.Zhuhai (Internship)</span></div>
+                <div class="desc">4 mos · Shanghai · On-site<br>Excel & Database & SQL<span class="tag-list">Excel, SQL</span></div>
+            </div>
+        </div>
+        <div class="copyright">© 2025 Cewen Chi. All Rights Reserved.</div>
+    </div>
+<script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
+</body>
+</html>

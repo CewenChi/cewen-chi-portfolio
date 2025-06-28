@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>American Express Default Prediction - Cewen Chi</title>
+    <style>
+        body {
+            background: #f7f7f9 url('../assets/images/finance-bg.png') repeat;
+            color: #222;
+            font-family: "Helvetica Neue", Arial, "Liberation Sans", "Segoe UI", sans-serif;
+            font-weight: 400;
+            letter-spacing: 0.01em;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 2.5rem 1.2rem 2.5rem 1.2rem;
+            background: none;
+        }
+        h1 {
+            font-size: 2.1rem;
+            font-weight: 700;
+            margin-bottom: 0.2em;
+            margin-top: 1.2em;
+            letter-spacing: -1px;
+        }
+        h2 {
+            font-size: 1.15rem;
+            font-weight: 500;
+            color: #2d5fd7;
+            margin-top: 1.5em;
+            margin-bottom: 1.2em;
+        }
+        h3 {
+            font-size: 1.08rem;
+            font-weight: 600;
+            color: #2d5fd7;
+            margin-top: 1.2em;
+            margin-bottom: 0.7em;
+        }
+        p, ul, li, pre, code {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            margin-bottom: 1.2em;
+        }
+        ul {
+            padding-left: 1.2em;
+        }
+        a {
+            color: #2d5fd7;
+            text-decoration: none;
+            border-bottom: 1px dotted #2d5fd7;
+            transition: border 0.2s;
+        }
+        a:hover {
+            text-decoration: underline;
+            border-bottom: 1px solid #2d5fd7;
+        }
+        .links {
+            margin: 2.2em 0 1.5em 0;
+            display: flex;
+            gap: 2.5em;
+            flex-wrap: wrap;
+        }
+        .section {
+            margin-bottom: 2.5em;
+        }
+        .tag-list {
+            color: #2d5fd7;
+            font-size: 0.98rem;
+            margin-bottom: 2.2em;
+        }
+        .copyright {
+            color: #888;
+            font-size: 0.98rem;
+            text-align: center;
+            margin-top: 3em;
+            margin-bottom: 1em;
+        }
+        pre, code {
+            background: #f6f8fa;
+            border-radius: 6px;
+            padding: 0.7em 1em;
+            font-size: 0.98rem;
+            font-family: 'JetBrains Mono', 'Fira Mono', 'Consolas', monospace;
+            overflow-x: auto;
+        }
+        @media (max-width: 600px) {
+            .container { padding: 1.2rem 0.2rem; }
+            h1 { font-size: 1.3rem; }
+            h2 { font-size: 1rem; }
+            .links { gap: 1.2em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="links">
+            <a href="home_page.html">Home</a>
+            <a href="career_timeline_page.html">Career</a>
+            <a href="competitions_overview_page.html">Competitions</a>
+        </div>
+        <h1>American Express Default Prediction</h1>
+        <h2>Gold Medal (Top 0.3%) · August 2023 · Duration: 4 months</h2>
+        <div class="section">
+            <h3>Project Overview</h3>
+            <p>
+                The American Express Default Prediction competition challenged participants to predict the probability that a customer does not pay back their credit card balance in the future based on their monthly customer profile. The dataset contained aggregated profile features for each customer at each statement date, with the goal of predicting binary default outcomes.
+            </p>
+            <ul>
+                <li>Achieved Gold Medal ranking in top 0.3% of 4,875 teams</li>
+                <li>Developed novel feature engineering techniques for temporal aggregation</li>
+                <li>Implemented advanced ensemble methods with custom loss functions</li>
+                <li>Final private leaderboard score: 0.80851 (normalized Gini coefficient)</li>
+            </ul>
+        </div>
+        <div class="section">
+            <h3>Dataset Analysis</h3>
+            <ul>
+                <li>5.5M training samples, 190 features, 13 time periods</li>
+                <li>High dimensionality, significant missing values, class imbalance (26% default rate)</li>
+                <li>Temporal dependencies and anonymous features</li>
+            </ul>
+            <div class="tag-list">
+                Delinquency (D_*), Spend (S_*), Payment (P_*), Balance (B_*), Risk (R_*), Other
+            </div>
+        </div>
+        <div class="section">
+            <h3>Methodology</h3>
+            <ul>
+                <li>Ensemble of gradient boosting machines (XGBoost) with custom objective for normalized Gini</li>
+                <li>Temporal feature engineering: mean, std, min, max, last, first, trend, lag, rolling stats</li>
+                <li>Advanced features: interaction terms, categorical encoding, missing value indicators, clustering</li>
+                <li>Three-level ensemble with different hyperparameters and feature subsets</li>
+                            </ul>
+            <p><b>Key Equations:</b></p>
+            <pre>Gini = 2 × AUC - 1
+AUC = ∫₀¹ TPR(FPR⁻¹(t))dt
+L = Σᵢ l(yᵢ, ŷᵢ) + Σₖ Ω(fₖ)</pre>
+                        </div>
+        <div class="section">
+            <h3>Implementation (Python)</h3>
+            <pre>def create_temporal_features(df):
+    # Statistical aggregations
+    agg_funcs = ['mean', 'std', 'min', 'max', 'last', 'first']
+    num_cols = df.select_dtypes(include=[np.number]).columns
+    features = []
+    for col in num_cols:
+        for func in agg_funcs:
+            if func == 'last':
+                features.append(df.groupby('customer_ID')[col].last())
+            elif func == 'first':
+                features.append(df.groupby('customer_ID')[col].first())
+            else:
+                features.append(df.groupby('customer_ID')[col].agg(func))
+    # Trend features
+    def calculate_trend(series):
+        x = np.arange(len(series))
+        if len(series) > 1:
+            slope, _ = np.polyfit(x, series, 1)
+            return slope
+        return 0
+    for col in num_cols:
+        trend_feature = df.groupby('customer_ID')[col].apply(calculate_trend)
+        features.append(trend_feature)
+    return pd.concat(features, axis=1)
+            </pre>
+            <pre>import xgboost as xgb
+from sklearn.model_selection import StratifiedKFold
+
+def train_xgb_model(X_train, y_train, X_val, y_val):
+    params = {
+        'objective': 'binary:logistic',
+        'eval_metric': 'auc',
+        'tree_method': 'gpu_hist',
+        'max_depth': 7,
+        'learning_rate': 0.05,
+        'subsample': 0.8,
+        'colsample_bytree': 0.8,
+        'reg_alpha': 0.1,
+        'reg_lambda': 1.0,
+        'random_state': 42
+    }
+    dtrain = xgb.DMatrix(X_train, label=y_train)
+    dval = xgb.DMatrix(X_val, label=y_val)
+    model = xgb.train(
+        params,
+        dtrain,
+        num_boost_round=2000,
+        evals=[(dtrain, 'train'), (dval, 'val')],
+        early_stopping_rounds=100,
+        verbose_eval=100
+    )
+    return model
+            </pre>
+            <pre>def amex_metric(y_true, y_pred):
+    def gini(actual, pred):
+        assert len(actual) == len(pred)
+        all_data = np.asarray(np.c_[actual, pred, np.arange(len(actual))], dtype=np.float64)
+        all_data = all_data[np.lexsort((all_data[:, 2], -1 * all_data[:, 1]))]
+        totalLosses = all_data[:, 0].sum()
+        giniSum = all_data[:, 0].cumsum().sum() / totalLosses
+        giniSum -= (len(actual) + 1) / 2.
+        return giniSum / len(actual)
+    return gini(y_true, y_pred) / gini(y_true, y_true)
+            </pre>
+        </div>
+        <div class="section">
+            <h3>Results & Insights</h3>
+            <ul>
+                <li>Final private leaderboard score: <b>0.80851</b> (normalized Gini)</li>
+                <li>Final rank: <b>14th</b> out of 4,875 teams</li>
+                <li>Top percentile: <b>0.3%</b></li>
+                <li>Temporal patterns and feature engineering were key to success</li>
+                <li>Business impact: approach can reduce default losses by 15-20% in real-world credit risk</li>
+            </ul>
+        </div>
+        <div class="copyright">&copy; 2025 Cewen Chi. All Rights Reserved.</div>
+        </div>
+<script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
+</body>
+</html>

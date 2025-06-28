@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Optiver - Trading at the Close</title>
+
+    <!-- MathJax for LaTeX rendering -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <!-- Prism.js CSS for syntax highlighting -->
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css" rel="stylesheet" />
+    <!-- Prism.js core library -->
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <!-- Prism.js Python language support -->
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+    <!-- Prism.js LaTeX language support (for equations in code blocks if any) -->
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-latex.min.js"></script>
+
+    <style>
+        html {
+            scroll-behavior: smooth; /* Smooth scrolling for anchor links */
+        }
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8; /* Subtle paper-like background */
+        }
+        .back-to-main {
+            position: absolute;
+            top: 1rem;
+            right: 2rem;
+            z-index: 1000;
+        }
+        .back-to-main a {
+            color: #0056b3;
+            text-decoration: none;
+            font-size: 0.9em;
+        }
+        .back-to-main a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            max-width: 1100px; /* Adjusted to accommodate wider grid, overall document width */
+            margin: 0 auto; /* Center the content */
+            padding: 2.5rem 1.2rem;
+            line-height: 1.75; /* Increase line height for comfortable reading */
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-top: 0;
+            margin-bottom: 0.5em;
+            color: #222;
+        }
+        .author-info {
+            font-size: 0.9em;
+            color: #666;
+            display: block;
+            margin-bottom: 2em;
+        }
+
+        .site-navigation {
+            position: relative;
+            margin: 1rem auto 2rem;     /* space above/below */
+            display: flex;
+            justify-content: center;    /* center-align links */
+            flex-wrap: wrap; /* Allow links to wrap on smaller screens */
+            gap: 1em; /* Space between navigation items */
+        }
+        .site-navigation a {
+            color: #0056b3;
+            text-decoration: none;
+            padding: 0.2em 0.5em;
+            font-size: 0.9em;
+            white-space: nowrap; /* Prevent links from breaking */
+        }
+        .site-navigation a:hover {
+            text-decoration: underline;
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            margin-top: 2.5rem;
+            margin-bottom: 1em;
+            color: #222;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.5em;
+        }
+        h3 {
+            font-size: 1.4rem;
+            margin-top: 2rem;
+            margin-bottom: 1em;
+            color: #222;
+        }
+        p {
+            margin-bottom: 1em;
+            font-size: 1.05rem;
+        }
+        ul {
+            margin-bottom: 1em;
+            padding-left: 1.5em;
+        }
+        li {
+            margin-bottom: 0.5em;
+        }
+
+        /* Code Block Styles */
+        .code-module {
+            max-width: 100%; /* Adjust to fit within the grid column */
+            margin: 1.5em auto; /* Centered, and align with the grid */
+            background-color: #f9f9f9;
+            padding: 1.2em;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .code-title {
+            font-weight: bold;
+            margin-bottom: 0.8em;
+            font-size: 1em;
+            color: #333;
+            text-align: center;
+        }
+        pre {
+            margin: 0;
+            max-height: 200px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+        pre code {
+            display: block;
+            padding: 0.5em;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem 1rem;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+            h2 {
+                font-size: 1.4rem;
+            }
+            p {
+                font-size: 1rem;
+            }
+            .site-navigation {
+                flex-direction: column; /* Stack links vertically on smaller screens */
+                align-items: center; /* Center stacked links */
+                gap: 0.5em;
+            }
+            .site-navigation a {
+                padding: 0.1em 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="back-to-main">
+        <a href="../index.html">Back to Main</a>
+    </div>
+    <div class="container">
+        <h1 id="compTitle">Optiver - Trading at the Close (Kaggle 2023)</h1>
+        <nav class="site-navigation">
+            <a href="#project-overview">Project Overview</a>
+            <a href="#dataset-analysis">Dataset Analysis</a>
+            <a href="#methodology">Methodology</a>
+            <a href="#key-equations">Key Equations</a>
+            <a href="#implementation">Implementation</a>
+            <a href="#results-insights">Results & Insights</a>
+        </nav>
+        <span class="author-info">Silver Medal (Top 3%) · Metric: Mean Absolute Error (MAE)</span>
+
+        <!-- 2. Project Overview -->
+        <h2 id="project-overview">Project Overview</h2>
+        <p>This Kaggle competition, "Optiver - Trading at the Close," challenged participants to predict the rise and fall of stock prices during the last 10 minutes of trading each day for hundreds of Nasdaq-listed stocks. The core task was a regression prediction problem, aiming to forecast the <code>close price</code> of anonymous stocks. The competition was designed to mimic real-world data science problems encountered by traders, quantitative researchers, and engineers at Optiver, emphasizing the integration of auction and order book signals to enhance market efficiency.</p>
+        
+        <h3>Evaluation Metric</h3>
+        <p>The competition submissions were evaluated using the Mean Absolute Error (MAE) between the predicted return and the observed target. The target variable represented the 60-second future move in the stock's Weighted Average Price (WAP) less the 60-second future move of a synthetic index, expressed in basis points. A 1 basis point price move is equivalent to a 0.01% price move.</p>
+
+        <!-- 3. Dataset Analysis -->
+        <h2 id="dataset-analysis">Dataset Analysis</h2>
+        <p>The dataset primarily consisted of auction data delivered through an API during inference. Key identifiers included:</p>
+        <ul>
+          <li><b>stock_id:</b> A unique identifier for each stock. Not all stock IDs existed in every time bucket.</li>
+          <li><b>date_id:</b> A unique identifier for the date, sequential and consistent across all stocks.</li>
+        </ul>
+        
+        <p>The dataset contained various features crucial for predicting stock movements:</p>
+        <ul>
+          <li><b>Imbalance Features:</b> <code>imbalance_size</code> (unmatched amount at reference price), <code>imbalance_buy_sell_flag</code> (1 for buy-side, -1 for sell-side, 0 for no imbalance)</li>
+          <li><b>Price Features:</b> <code>reference_price</code>, <code>far_price</code>, <code>near_price</code>, <code>bid_price</code>, <code>ask_price</code>, <code>wap</code></li>
+          <li><b>Size Features:</b> <code>matched_size</code>, <code>bid_size</code>, <code>ask_size</code></li>
+          <li><b>Time Features:</b> <code>seconds_in_bucket</code> (seconds elapsed since beginning of closing auction)</li>
+        </ul>
+
+        <!-- 4. Methodology -->
+        <h2 id="methodology">Methodology</h2>
+        <p>Our approach involved comprehensive feature engineering and a LightGBM model, validated through a time-series cross-validation scheme.</p>
+        
+        <h3>4.1 Feature Engineering</h3>
+        <p>The key challenge of the competition lay in feature engineering. We focused on creating features across four levels: global, imbalance, cross-sectional, and temporal.</p>
+        
+        <h4>Order Book Dynamic Features</h4>
+        <ul>
+          <li><code>imbalance_buy_sell_flag * imbalance_size</code>: To capture market buy/sell power imbalance</li>
+          <li><code>bid_size + ask_size</code>: To reflect market liquidity and activity</li>
+          <li><code>liquidity_imbalance</code>: <code>(bid_size-ask_size)/(bid_size+ask_size)</code></li>
+          <li><code>matched_imbalance</code>: <code>(imbalance_size-matched_size)/(matched_size+imbalance_size)</code></li>
+          <li><code>size_imbalance</code>: <code>bid_size / ask_size</code></li>
+        </ul>
+        
+        <h4>Triplet Imbalance Features</h4>
+        <p>We created a specialized function to compute imbalance ratios for combinations of three prices and sizes:</p>
+        <div class="code-module">
+            <div class="code-title">Python Code Example</div>
+            <pre><code class="language-python">
+@njit(parallel=True)
+def compute_triplet_imbalance(df_values, comb_indices):
+    num_rows = df_values.shape[0]
+    num_combinations = len(comb_indices)
+    imbalance_features = np.empty((num_rows, num_combinations))
+    for i in prange(num_combinations):
+        a, b, c = comb_indices[i]
+        for j in range(num_rows):
+            max_val = max(df_values[j, a], df_values[j, b], df_values[j, c])
+            min_val = min(df_values[j, a], df_values[j, b], df_values[j, c])
+            mid_val = df_values[j, a] + df_values[j, b] + df_values[j, c] - min_val - max_val
+            
+            if mid_val == min_val:
+                imbalance_features[j, i] = np.nan
+            else:
+                imbalance_features[j, i] = (max_val - mid_val) / (mid_val - min_val)
+    return imbalance_features
+            </code></pre>
+        </div>
+        
+        <h4>Time-Series Features</h4>
+        <ul>
+          <li>Historical price movements with shifts and returns for windows of 1, 3, 5, and 10 periods</li>
+          <li>Rolling statistics (mean, std) for price and size differences</li>
+          <li>Momentum indicators: <code>wap_momentum</code>, <code>imbalance_momentum</code></li>
+          <li>Market microstructure features: <code>price_spread</code>, <code>spread_intensity</code>, <code>market_urgency</code>, <code>depth_pressure</code></li>
+        </ul>
+        
+        <h3>4.2 Model Building</h3>
+        <p>We selected LightGBM for its proven performance and GPU acceleration capabilities.</p>
+        
+        <h4>Time-Series Cross-Validation</h4>
+        <p>To prevent data leakage and ensure robust validation, we implemented a custom purged group time-series split:</p>
+        <div class="code-module">
+            <div class="code-title">Python Code Example</div>
+            <pre><code class="language-python">
+class PurgedGroupTimeSeriesSplit(_BaseKFold):
+    def split(self, X, y=None, groups=None):
+        group_test_size = min(n_groups // n_folds, max_test_group_size)
+        group_test_starts = range(n_groups - n_splits * group_test_size,
+                                  n_groups, group_test_size)
+        for group_test_start in group_test_starts:
+            train_array = []
+            test_array = []
+            
+            group_st = max(0, group_test_start - group_gap - max_train_group_size)
+            for train_group_idx in unique_groups[group_st:(group_test_start - group_gap)]:
+                train_array_tmp = group_dict[train_group_idx]
+                train_array = np.concatenate((train_array, train_array_tmp))
+            
+            for test_group_idx in unique_groups[group_test_start:group_test_start + group_test_size]:
+                test_array_tmp = group_dict[test_group_idx]
+                test_array = np.concatenate((test_array, test_array_tmp))
+            
+            test_array = test_array[group_gap:]
+            yield train_array, test_array
+            </code></pre>
+        </div>
+        
+        <h4>Model Training</h4>
+        <div class="code-module">
+            <div class="code-title">Python Code Example</div>
+            <pre><code class="language-python">
+lgb_params = {
+    "objective": "mae",
+    "n_estimators": 7000,
+    "num_leaves": 256,
+    "subsample": 0.6,
+    "colsample_bytree": 0.8,
+    "learning_rate": 0.01,
+    'max_depth': 11,
+    "n_jobs": 4,
+    "device": "gpu",
+    "verbosity": -1,
+    "importance_type": "gain",
+    "reg_alpha": 0.2,
+    "reg_lambda": 3.25
+}
+
+for i in range(num_folds):
+    lgb_model = lgb.LGBMRegressor(**lgb_params)
+    lgb_model.fit(
+        df_fold_train[feature_columns],
+        df_fold_train_target,
+        eval_set=[(df_fold_valid[feature_columns], df_fold_valid_target)],
+        callbacks=[
+            lgb.callback.early_stopping(stopping_rounds=100),
+            lgb.callback.log_evaluation(period=100),
+        ],
+    )
+    models.append(lgb_model)
+            </code></pre>
+        </div>
+
+        <!-- 5. Key Equations -->
+        <h2 id="key-equations">Key Equations</h2>
+        <p>Mean Absolute Error (MAE):</p>
+        <p>$$MAE = \frac{1}{n}\sum_{i=1}^{n}|y_{i}-x_{i}|$$</p>
+        
+        <p>Target Calculation:</p>
+        <p>$$Target=\left(\frac{StockWAP_{t+60}}{StockWAP_{t}}-\frac{IndexWAP_{t+60}}{IndexWAP_{t}}\right) \times 10000$$</p>
+        
+        <p>where WAP represents the Weighted Average Price, and the result is expressed in basis points.</p>
+
+        <!-- 6. Implementation -->
+        <h2 id="implementation">Implementation (Python)</h2>
+        <p>The solution was implemented using <code>pandas</code> and <code>polars</code> for data manipulation and <code>lightgbm</code> with GPU acceleration for model training.</p>
+        
+        <h3>Memory Optimization</h3>
+        <div class="code-module">
+            <div class="code-title">Python Code Example</div>
+            <pre><code class="language-python">
+def reduce_mem_usage(df, verbose=0):
+    start_mem = df.memory_usage().sum() / 1024**2
+    for col in df.columns:
+        col_type = df[col].dtype
+        if col_type != object:
+            c_min = df[col].min()
+            c_max = df[col].max()
+            
+            if str(col_type)[:3] == "int":
+                if c_min > np.iinfo(np.int8).min and c_max < np.iinfo(np.int8).max:
+                    df[col] = df[col].astype(np.int8)
+                elif c_min > np.iinfo(np.int16).min and c_max < np.iinfo(np.int16).max:
+                    df[col] = df[col].astype(np.int16)
+                elif c_min > np.iinfo(np.int32).min and c_max < np.iinfo(np.int32).max:
+                    df[col] = df[col].astype(np.int32)
+            else:
+                if c_min > np.finfo(np.float32).min and c_max < np.finfo(np.float32).max:
+                    df[col] = df[col].astype(np.float32)
+    return df
+            </code></pre>
+        </div>
+        
+        <h3>Inference Strategy</h3>
+        <p>During inference, we implemented a weighted ensemble approach with caching for historical features:</p>
+        <div class="code-module">
+            <div class="code-title">Python Code Example</div>
+            <pre><code class="language-python">
+# Cache management for time-series features
+cache = pd.concat([cache, test], ignore_index=True, axis=0)
+if counter > 0:
+    cache = cache.groupby(['stock_id']).tail(21).sort_values(
+        by=['date_id', 'seconds_in_bucket', 'stock_id']
+    ).reset_index(drop=True)
+
+# Weighted ensemble predictions
+lgb_predictions = np.zeros(len(test))
+for model, weight in zip(models, lgb_model_weights):
+    lgb_predictions += weight * model.predict(feat[feature_columns])
+
+# Final predictions with centering and clipping
+predictions = lgb_predictions
+final_predictions = predictions - np.mean(predictions)
+clipped_predictions = np.clip(final_predictions, y_min, y_max)
+            </code></pre>
+        </div>
+
+        <!-- 7. Results & Insights -->
+        <h2 id="results-insights">Results & Insights</h2>
+        <p>Our solution achieved a <b>Silver Medal</b> in the Optiver - Trading at the Close competition, securing a top 3% ranking. This strong performance was largely attributed to:</p>
+        <ul>
+          <li><b>Comprehensive Feature Engineering:</b> The extraction and combination of various features, including order book dynamics, price relationships, weighted prices, and historical time-series trends, provided rich inputs for the model.</li>
+          <li><b>Robust Model Validation:</b> The custom purged time-series cross-validation approach ensured the model's stability and prevented data leakage from lagged features.</li>
+          <li><b>Efficient Implementation:</b> Memory optimization and GPU acceleration enabled fast experimentation and model iteration.</li>
+          <li><b>Strategic Ensemble:</b> The weighted ensemble of models trained on different folds improved prediction stability and generalization.</li>
+        </ul>
+        <p>The competition highlighted the importance of understanding market microstructure and the critical role of feature engineering in financial prediction tasks. The time-series nature of the problem required careful validation strategies to ensure model robustness in real-world trading scenarios.</p>
+    </div>
+<script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
+</body>
+</html>

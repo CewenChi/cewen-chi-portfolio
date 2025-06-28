@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>American Express Default Prediction</title>
+
+    <!-- MathJax for LaTeX rendering -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <!-- Prism.js CSS for syntax highlighting -->
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css" rel="stylesheet" />
+    <!-- Prism.js core library -->
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <!-- Prism.js Python language support -->
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+    <!-- Prism.js LaTeX language support (for equations in code blocks if any) -->
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-latex.min.js"></script>
+
+    <style>
+        html {
+            scroll-behavior: smooth; /* Smooth scrolling for anchor links */
+        }
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8; /* Subtle paper-like background */
+        }
+        .back-to-main {
+            position: absolute;
+            top: 1rem;
+            right: 2rem;
+            z-index: 1000;
+        }
+        .back-to-main a {
+            color: #0056b3;
+            text-decoration: none;
+            font-size: 0.9em;
+        }
+        .back-to-main a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            max-width: 1100px; /* Adjusted to accommodate wider grid, overall document width */
+            margin: 0 auto; /* Center the content */
+            padding: 2.5rem 1.2rem;
+            line-height: 1.75; /* Increase line height for comfortable reading */
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-top: 0;
+            margin-bottom: 0.5em;
+            color: #222;
+        }
+        .author-info {
+            font-size: 0.9em;
+            color: #666;
+            display: block;
+            margin-bottom: 2em;
+        }
+
+        .site-navigation {
+            position: relative;
+            margin: 1rem auto 2rem;     /* space above/below */
+            display: flex;
+            justify-content: center;    /* center-align links */
+            flex-wrap: wrap; /* Allow links to wrap on smaller screens */
+            gap: 1em; /* Space between navigation items */
+        }
+        .site-navigation a {
+            color: #0056b3;
+            text-decoration: none;
+            padding: 0.2em 0.5em;
+            font-size: 0.9em;
+            white-space: nowrap; /* Prevent links from breaking */
+        }
+        .site-navigation a:hover {
+            text-decoration: underline;
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            margin-top: 2.5rem;
+            margin-bottom: 1em;
+            color: #222;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.5em;
+        }
+        h3 {
+            font-size: 1.4rem;
+            margin-top: 2rem;
+            margin-bottom: 1em;
+            color: #222;
+        }
+        p {
+            margin-bottom: 1em;
+            font-size: 1.05rem;
+        }
+        ul {
+            margin-bottom: 1em;
+            padding-left: 1.5em;
+        }
+        li {
+            margin-bottom: 0.5em;
+        }
+
+        /* Code Block Styles */
+        .code-module {
+            max-width: 100%; /* Adjust to fit within the grid column */
+            margin: 1.5em auto; /* Centered, and align with the grid */
+            background-color: #f9f9f9;
+            padding: 1.2em;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .code-title {
+            font-weight: bold;
+            margin-bottom: 0.8em;
+            font-size: 1em;
+            color: #333;
+            text-align: center;
+        }
+        pre {
+            margin: 0;
+            max-height: 200px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+        pre code {
+            display: block;
+            padding: 0.5em;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem 1rem;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+            h2 {
+                font-size: 1.4rem;
+            }
+            p {
+                font-size: 1rem;
+            }
+            .site-navigation {
+                flex-direction: column; /* Stack links vertically on smaller screens */
+                align-items: center; /* Center stacked links */
+                gap: 0.5em;
+            }
+            .site-navigation a {
+                padding: 0.1em 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="back-to-main">
+        <a href="../index.html">Back to Main</a>
+    </div>
+    <div class="container">
+        <h1 id="compTitle">American Express Default Prediction (Kaggle Aug 2022)</h1>
+        <nav class="site-navigation">
+            <a href="#project-overview">Project Overview</a>
+            <a href="#dataset-analysis">Dataset Analysis</a>
+            <a href="#methodology">Methodology</a>
+            <a href="#key-equations">Key Equations</a>
+            <a href="#implementation">Implementation</a>
+            <a href="#results-insights">Results & Insights</a>
+        </nav>
+        <span class="author-info">Gold Medal (Top 0.3%) · Metric: Normalized Gini Coefficient</span>
+
+        <!-- 2. Project Overview -->
+        <h2 id="project-overview">Project Overview</h2>
+        <p><b>Objective</b>: Predict each card-holder's 120-day default risk from 13 months of anonymized account snapshots. This challenge, initiated by American Express, a leading payment card issuer, represented a classic risk control problem within a real-world, industrial-scale dataset.</p>
+        <p><b>Outcome</b>: A Gold Medal was achieved (top 0.3%). The private-leaderboard normalized Gini coefficient for the solution was <b>0.80851</b>.</p>
+        <p><b>Key Innovations:</b></p>
+        <ul>
+          <li><b>EDA-driven Feature Engineering</b>: Involved category-aware aggregates coupled with bespoke utilization-and-volatility signals. Features were trimmed using low-variance and mutual-information filters, contributing to an approximate <b>45% Gini lift</b> over raw aggregates.</li>
+          <li><b>Correlation-filtered Ensemble</b>: Selected Optuna-tuned LightGBM, XGBoost, and CatBoost models with low prediction overlap. A rank-averaged blend of these models added a notable <b>+0.012 Gini</b> to the best single model's performance.</li>
+          <li><b>Automated, Overfit-safe Pipeline</b>: Incorporated adversarial validation, multi-seed bagging, and customer-level stratified cross-validation, all encapsulated within a reproducible offline-training / online-inference workflow.</li>
+        </ul>
+
+        <!-- 3. Dataset Analysis -->
+        <h2 id="dataset-analysis">Dataset Analysis</h2>
+        <ul>
+          <li><b>Scale</b>: The dataset comprised 5.5 million monthly statements, which were compressed into approximately 200,000 customer records. It included 190 anonymized variables observed over 13 distinct time steps.</li>
+          <li><b>Imbalance</b>: The dataset presented a 26% default rate. This imbalance was effectively mitigated through the use of stratified folds and a cost-sensitive loss function during model training.</li>
+          <li><b>Structure & Challenges</b>: The data featured distinct blocks of variables: Delinquency (<code>D_*</code>), Spend (<code>S_*</code>), Payment (<code>P_*</code>), Balance (<code>B_*</code>), and Risk (<code>R_*</code>). Challenges such as high dimensionality, heavy missingness, and temporal drift were addressed via leakage-safe aggregations and rigorous validation strategies.</li>
+        </ul>
+
+        <!-- 4. Methodology -->
+        <h2 id="methodology">Methodology</h2>
+        <ul>
+          <li><b>Temporal Feature Engineering</b>: Features were derived through a variety of temporal aggregations including mean, standard deviation, minimum, maximum, first, and last values. Additional techniques included per-column linear trend calculations, lag and rolling statistics, interaction terms, missing-value flags, and K-means cluster IDs to capture complex customer behavior patterns.</li>
+          <li><b>Model Architecture</b>: The core modeling approach employed an ensemble of GPU-accelerated XGBoost models. These models were trained with a custom objective function designed to directly maximize the normalized Gini coefficient, ensuring optimization aligned precisely with the competition metric.</li>
+          <li><b>Validation</b>: Validation relied on customer-group 5-fold cross-validation. Optuna's Bayesian Hyperparameter Optimization (HPO) was utilized for efficient parameter tuning. Early stopping, set to 100 rounds, prevented overfitting during training.</li>
+          <li><b>Stacking</b>: A level-2 stacking approach involved a weighted geometric mean across models trained on different feature subsets, further enhancing predictive performance.</li>
+        </ul>
+
+        <!-- 5. Key Equations -->
+        <h2 id="key-equations">Key Equations</h2>
+        <p>The primary evaluation metric, Normalized Gini, is defined as:</p>
+        <p>$$\mathrm{Gini} \;=\; 2\,\mathrm{AUC} - 1$$</p>
+        <p>where AUC (Area Under the Receiver Operating Characteristic Curve) is:</p>
+        <p>$$\mathrm{AUC}  \;=\; \int_{0}^{1} \mathrm{TPR}\!\bigl(\mathrm{FPR}^{-1}(t)\bigr)\,dt$$</p>
+        <p>The general form of a loss function, for example, in a tree-based model, often includes a regularizer:</p>
+        <p>$$\mathcal{L}(\Theta)
+  \;=\; \sum_{i} \ell\bigl(y_i, \hat{y}_i\bigr)
+        \;+\; \sum_{k} \Omega\bigl(f_k\bigr)$$
+            </p>
+
+        <!-- 6. Implementation -->
+        <h2 id="implementation">Implementation</h2>
+        <h3>Libraries and Tools</h3>
+        <ul>
+            <li><b>Data Manipulation & Analysis</b>: <code>pandas</code>, <code>numpy</code></li>
+            <li><b>Machine Learning</b>: <code>LightGBM</code>, <code>XGBoost</code>, <code>CatBoost</code>, <code>scikit-learn</code></li>
+            <li><b>Hyperparameter Optimization</b>: <code>Optuna</code></li>
+            <li><b>Feature Engineering</b>: Custom functions for time-series aggregation, statistical metrics, and interaction terms.</li>
+        </ul>
+
+        <h3>Code Snippet: Feature Engineering Example</h3>
+        <div class="code-module">
+            <div class="code-title">Python Code Example</div>
+            <pre><code class="language-python">
+# Example: Simple moving average and lag features
+def feature_engineer(df):
+    df['S_2_rolling_mean_3'] = df.groupby('customer_ID')['S_2'].transform(lambda x: x.rolling(window=3).mean())
+    df['P_2_lag1'] = df.groupby('customer_ID')['P_2'].transform(lambda x: x.shift(1))
+    return df
+
+# Example: Custom Gini metric for LightGBM
+def lgb_metric_gini(preds, train_data):
+    y_true = train_data.get_label()
+    # Replace NaN or inf with 0 or a sensible value if they occur
+    preds = np.nan_to_num(preds, nan=0.0, posinf=1.0, neginf=0.0)
+    fpr, tpr, thresholds = metrics.roc_curve(y_true, preds)
+    gini = 2 * metrics.auc(fpr, tpr) - 1
+    return 'gini', gini, True
+            </code></pre>
+        </div>
+
+        <h3>Code Snippet: Model Training Example</h3>
+        <div class="code-module">
+            <div class="code-title">Python Code Example</div>
+            <pre><code class="language-python">
+import lightgbm as lgb
+from sklearn.model_selection import StratifiedKFold
+from sklearn import metrics
+import numpy as np # Ensure numpy is imported for nan_to_num
+
+# Sample data for demonstration
+X = np.random.rand(100, 10)
+y = np.random.randint(0, 2, 100)
+
+kf = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+oof_preds = np.zeros(len(X))
+models = []
+
+for fold, (train_index, val_index) in enumerate(kf.split(X, y)):
+    X_train, X_val = X[train_index], X[val_index]
+    y_train, y_val = y[train_index], y[val_index]
+
+    lgb_params = {
+        'objective': 'binary',
+        'metric': 'auc',
+        'boosting_type': 'gbdt',
+        'n_estimators': 100,
+        'learning_rate': 0.05,
+        'num_leaves': 20,
+        'max_depth': 5,
+        'seed': 42 + fold,
+        'n_jobs': -1,
+        'verbose': -1,
+        'colsample_bytree': 0.7,
+        'subsample': 0.7,
+        'reg_alpha': 0.1,
+        'reg_lambda': 0.1,
+    }
+
+    model = lgb.LGBMClassifier(**lgb_params)
+    model.fit(X_train, y_train,
+              eval_set=[(X_val, y_val)],
+              eval_metric=lgb_metric_gini, # Using custom Gini metric
+              callbacks=[lgb.early_stopping(10)]) # Early stopping rounds
+
+    oof_preds[val_index] = model.predict_proba(X_val)[:, 1]
+    models.append(model)
+
+final_gini = 2 * metrics.roc_auc_score(y, oof_preds) - 1
+print(f'Overall OOF Gini: {final_gini:.5f}')
+            </code></pre>
+        </div>
+
+        <!-- 7. Results & Insights -->
+        <h2 id="results-insights">Results & Insights</h2>
+        <p>The implemented solution achieved a gold medal ranking, placing in the top 0.3%. This strong performance was primarily attributable to:</p>
+        <ul>
+            <li><b>Robust Feature Engineering</b>: The comprehensive set of derived features, particularly those capturing temporal dynamics and categorical interactions, proved highly effective.</li>
+            <li><b>Ensemble Modeling</b>: The judicious combination of diverse tree-based models, weighted by their performance and correlation, provided significant uplift over individual models.</li>
+            <li><b>Rigorous Validation Strategy</b>: The multi-faceted validation approach, including adversarial validation and customer-level stratification, ensured the model's generalization capabilities and minimized overfitting.</li>
+        </ul>
+        <p>Future work could explore more advanced deep learning architectures for sequence modeling (e.g., LSTMs or Transformers) to capture even more intricate temporal patterns in the transaction data.</p>
+    </div>
+<script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
+</body>
+</html> 

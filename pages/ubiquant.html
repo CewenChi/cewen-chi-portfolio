@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ubiquant Market Prediction - Cewen Chi</title>
+
+    <!-- MathJax for LaTeX rendering -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <!-- Prism.js CSS for syntax highlighting -->
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css" rel="stylesheet" />
+    <!-- Prism.js core library -->
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <!-- Prism.js Python language support -->
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+    <!-- Prism.js LaTeX language support (for equations in code blocks if any) -->
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-latex.min.js"></script>
+
+    <style>
+        html {
+            scroll-behavior: smooth; /* Smooth scrolling for anchor links */
+        }
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8; /* Subtle paper-like background */
+        }
+        .back-to-main {
+            position: absolute;
+            top: 1rem;
+            right: 2rem;
+            z-index: 1000;
+        }
+        .back-to-main a {
+            color: #0056b3;
+            text-decoration: none;
+            font-size: 0.9em;
+        }
+        .back-to-main a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            max-width: 1100px; /* Adjusted to accommodate wider grid, overall document width */
+            margin: 0 auto; /* Center the content */
+            padding: 2.5rem 1.2rem;
+            line-height: 1.75; /* Increase line height for comfortable reading */
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-top: 0;
+            margin-bottom: 0.5em;
+            color: #222;
+        }
+        .author-info {
+            font-size: 0.9em;
+            color: #666;
+            display: block;
+            margin-bottom: 2em;
+        }
+
+        .site-navigation {
+            position: relative;
+            margin: 1rem auto 2rem;     /* space above/below */
+            display: flex;
+            justify-content: center;    /* center-align links */
+            flex-wrap: wrap; /* Allow links to wrap on smaller screens */
+            gap: 1em; /* Space between navigation items */
+        }
+        .site-navigation a {
+            color: #0056b3;
+            text-decoration: none;
+            padding: 0.2em 0.5em;
+            font-size: 0.9em;
+            white-space: nowrap; /* Prevent links from breaking */
+        }
+        .site-navigation a:hover {
+            text-decoration: underline;
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            margin-top: 2.5rem;
+            margin-bottom: 1em;
+            color: #222;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.5em;
+        }
+        h3 {
+            font-size: 1.4rem;
+            margin-top: 2rem;
+            margin-bottom: 1em;
+            color: #222;
+        }
+        p {
+            margin-bottom: 1em;
+            font-size: 1.05rem;
+        }
+        ul {
+            margin-bottom: 1em;
+            padding-left: 1.5em;
+        }
+        li {
+            margin-bottom: 0.5em;
+        }
+
+        /* Code Block Styles */
+        .code-module {
+            max-width: 100%; /* Adjust to fit within the grid column */
+            margin: 1.5em auto; /* Centered, and align with the grid */
+            background-color: #f9f9f9;
+            padding: 1.2em;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .code-title {
+            font-weight: bold;
+            margin-bottom: 0.8em;
+            font-size: 1em;
+            color: #333;
+            text-align: center;
+        }
+        pre {
+            margin: 0;
+            max-height: 200px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+        pre code {
+            display: block;
+            padding: 0.5em;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem 1rem;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+            h2 {
+                font-size: 1.4rem;
+            }
+            p {
+                font-size: 1rem;
+            }
+            .site-navigation {
+                flex-direction: column; /* Stack links vertically on smaller screens */
+                align-items: center; /* Center stacked links */
+                gap: 0.5em;
+            }
+            .site-navigation a {
+                padding: 0.1em 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="back-to-main">
+        <a href="../index.html">Back to Main</a>
+    </div>
+    <div class="container">
+        <h1 id="compTitle">Ubiquant Market Prediction (Kaggle 2022)</h1>
+        <nav class="site-navigation">
+            <a href="#project-overview">Project Overview</a>
+            <a href="#dataset-analysis">Dataset Analysis</a>
+            <a href="#methodology">Methodology</a>
+            <a href="#key-equations">Key Equations</a>
+            <a href="#implementation">Implementation</a>
+            <a href="#results-insights">Results & Insights</a>
+        </nav>
+        <span class="author-info">Bronze Medal (Top 5%) · Metric: Pearson Correlation Coefficient</span>
+
+        <!-- 2. Project Overview -->
+        <h2 id="project-overview">Project Overview</h2>
+        <p>This competition was hosted by Ubiquant, a leading quantitative hedge fund in China, challenging participants to predict investment returns. The primary objective was to build a model that could accurately forecast a specific target value related to investment returns using historical market data. A key challenge of this competition was its time-series nature, managed through a specialized API. This ensured that models could not use future information to make predictions, simulating a realistic trading environment where models must perform on unseen, future data.</p>
+        
+        <h3>Evaluation Metric</h3>
+        <p>Submissions were evaluated using the <b>Pearson correlation coefficient</b>. This metric measures the linear relationship between the model's predictions and the actual target values. To optimize for this, a custom objective function was implemented within the LightGBM model to directly maximize the Pearson correlation during training.</p>
+
+        <!-- 3. Dataset Analysis -->
+        <h2 id="dataset-analysis">Dataset Analysis</h2>
+        <p>The dataset consisted of historical data for thousands of individual investments, each identified by an <code>investment_id</code>. The data was structured as a time-series, with each data point marked by a <code>time_id</code>. The key fields included:</p>
+        <ul>
+          <li><b>time_id:</b> An ordered identifier for a point in time. The interval between <code>time_id</code>s was not constant.</li>
+          <li><b>investment_id:</b> A unique identifier for each investment.</li>
+          <li><b>target:</b> The value to be predicted.</li>
+          <li><b>f_0 to f_299:</b> A set of 300 anonymized features derived from market data, which served as the predictors for the model.</li>
+        </ul>
+        <p>A significant challenge was the size of the training data, which was approximately 18GB. Efficient memory management was crucial for processing the dataset effectively.</p>
+
+        <!-- 4. Methodology -->
+        <h2 id="methodology">Methodology</h2>
+        <p>Our approach centered on efficient data handling, robust model training using LightGBM, and a real-time fine-tuning strategy to ensure the model adapted to new data during inference.</p>
+        
+        <h3>4.1 Data Preprocessing</h3>
+        <p>Due to the large dataset size, the first step was to significantly reduce its memory footprint. A <code>reduce_mem_usage</code> function was employed to downcast numerical data types to their most efficient format, compressing the data from 18GB to approximately 3GB. The processed dataframe was then saved as a pickle file, which reduced data loading times by 90%.</p>
+        
+        <h3>4.2 Feature Engineering</h3>
+        <p>To mitigate the risk of overfitting, no additional features were engineered. The solution relied exclusively on the 300 anonymized features provided by the competition organizers.</p>
+        
+        <h3>4.3 Model Building</h3>
+        <ul>
+          <li><b>Model Selection:</b> LightGBM was chosen for its speed and high performance on tabular data.</li>
+          <li><b>Hyperparameter Tuning:</b> Optuna was used to perform hyperparameter tuning. The tuning process was set up with a 5-fold <code>TimeSeriesSplit</code> to ensure that the validation strategy respected the temporal nature of the data.</li>
+          <li><b>Training and Ensembling:</b> After identifying the optimal parameters, five separate LightGBM models were trained on the entire dataset. Each model was trained with a different random seed. The final prediction was an average of the outputs from these five models, a technique used to reduce variance and improve the stability of the results.</li>
+        </ul>
+        
+        <h3>4.4 Real-time Fine-tuning</h3>
+        <p>A critical component of the strategy was to continuously adapt the model during the inference phase. The competition's time-series API provided a <code>supplemental_train.csv</code> file with new data at each iteration. The pre-trained LightGBM models were fine-tuned on this supplemental data before making predictions on the test set. This ensured the model's predictions were always based on the most up-to-date information available, a key factor for success in a live market prediction environment. The number of boosting rounds for fine-tuning was reduced from 1900 to 450 to manage the time constraints of the API.</p>
+
+        <!-- 5. Key Equations -->
+        <h2 id="key-equations">Key Equations</h2>
+        <p>The primary evaluation metric, Pearson correlation coefficient, is defined as:</p>
+        <p>$$r = \frac{\sum_{i=1}^{n}(x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum_{i=1}^{n}(x_i - \bar{x})^2}\sqrt{\sum_{i=1}^{n}(y_i - \bar{y})^2}}$$</p>
+        <p>where:</p>
+        <ul>
+            <li>\(x_i\) represents the predicted values</li>
+            <li>\(y_i\) represents the actual target values</li>
+            <li>\(\bar{x}\) and \(\bar{y}\) are the means of predictions and targets respectively</li>
+            <li>\(n\) is the number of observations</li>
+        </ul>
+
+        <!-- 6. Implementation -->
+        <h2 id="implementation">Implementation (Python)</h2>
+        <p>The solution was implemented using <code>pandas</code> for data manipulation and <code>lightgbm</code> for modeling. Key code snippets are provided below.</p>
+        
+        <h3>Memory Reduction and Data Loading</h3>
+        <p>This notebook snippet shows the utility function used to reduce memory usage and the process of loading the data.</p>
+        <div class="code-module">
+            <div class="code-title">Python Code Example</div>
+            <pre><code class="language-python">
+import pandas as pd
+import numpy as np
+import pickle
+
+def reduce_mem_usage(df, verbose=False):
+    """
+    Utility function to reduce the memory usage of pandas dataframes
+    """
+    numerics = ['int16', 'int32', 'int64', 'float16', 'float32', 'float64']
+    start_mem = df.memory_usage().sum() / 1024**2
+    for col in df.columns:
+        col_type = df[col].dtypes
+        if col_type in numerics:
+            c_min = df[col].min()
+            c_max = df[col].max()
+            if str(col_type)[:3] == 'int':
+                if c_min > np.iinfo(np.int8).min and c_max < np.iinfo(np.int8).max:
+                    df[col] = df[col].astype(np.int8)
+                # ... (additional checks for other integer types)
+            else:
+                if c_min > np.finfo(np.float32).min and c_max < np.finfo(np.float32).max:
+                    df[col] = df[col].astype(np.float32)
+                # ... (additional checks for other float types)
+    end_mem = df.memory_usage().sum() / 1024**2
+    if verbose:
+        print(f'Mem. usage decreased to {end_mem:5.2f} Mb ({100 * (start_mem - end_mem) / start_mem:.1f}% reduction)')
+    return df
+
+# Load and process data
+# train = pd.read_csv('../input/ubiquant-market-prediction/train.csv')
+# train = reduce_mem_usage(train, verbose=True)
+# with open('train.pkl', 'wb') as f:
+#     pickle.dump(train, f)
+            </code></pre>
+        </div>
+
+        <h3>LightGBM Training with 5-Seed Ensemble</h3>
+        <p>This snippet demonstrates the training loop for the 5-seed LightGBM ensemble.</p>
+        <div class="code-module">
+            <div class="code-title">Python Code Example</div>
+            <pre><code class="language-python">
+import lightgbm as lgb
+
+# Parameters obtained from Optuna tuning
+params = {
+    'objective': 'regression',
+    'metric': 'rmse',
+    'n_estimators': 2000,
+    'learning_rate': 0.05,
+    # ... other parameters
+}
+
+features = [f'f_{i}' for i in range(300)]
+# Assuming 'train' is the loaded and preprocessed training dataframe
+# The actual training implementation would loop 5 times with different seeds
+for seed in [0, 1, 2, 3, 4]:
+    params['seed'] = seed
+    model = lgb.LGBMRegressor(**params)
+    # model.fit(train[features], train['target'])
+    # joblib.dump(model, f'lgbm_seed{seed}.pkl')
+            </code></pre>
+        </div>
+
+        <h3>Inference with Fine-Tuning</h3>
+        <p>This snippet from the inference notebook shows how the model is fine-tuned on supplemental data before making a prediction.</p>
+        <div class="code-module">
+            <div class="code-title">Python Code Example</div>
+            <pre><code class="language-python">
+import ubiquant
+import joblib
+
+# Load the 5 pre-trained models
+models = []
+for seed in range(5):
+    # model = joblib.load(f'../input/ubiquant-lgbm-baseline/lgbm_seed{seed}.pkl')
+    # models.append(model)
+
+# Set up the environment and iteration loop
+# env = ubiquant.make_env()
+# iter_test = env.iter_test()
+
+# for (test_df, sample_prediction_df) in iter_test:
+    # Fine-tune model on supplemental data (pseudo-code)
+    # if 'supplemental_train.csv' is available:
+    #     supplemental_df = pd.read_csv('supplemental_train.csv')
+    #     for model in models:
+    #         model.fit(supplemental_df[features], supplemental_df['target']) # fine-tuning step
+
+    # Make predictions
+    # y_preds = [model.predict(test_df[features]) for model in models]
+    # final_prediction = np.mean(y_preds, axis=0)
+    # sample_prediction_df['target'] = final_prediction
+    # env.predict(sample_prediction_df)
+            </code></pre>
+        </div>
+
+        <!-- 7. Results & Insights -->
+        <h2 id="results-insights">Results & Insights</h2>
+        <p>Our solution achieved a <b>Bronze Medal</b>, securing a position in the top 5% of participants. The final performance was a result of several key factors:</p>
+        <ul>
+          <li><b>Systematic Tuning and Ensembling:</b> Using Optuna for hyperparameter tuning provided a strong baseline. Ensembling five models trained with different seeds was crucial for improving the CV score from 0.231 to 0.296 and enhancing the stability of the final predictions.</li>
+          <li><b>Trusting Cross-Validation:</b> Given the time-series nature of the competition and the irrelevance of the public leaderboard, we relied heavily on our robust cross-validation setup to guide our modeling decisions.</li>
+          <li><b>Real-time Adaptation:</b> The strategy of fine-tuning the models on supplemental data during inference was the most critical insight. It allowed the model to adapt to the latest market dynamics, which is essential for any real-world financial prediction task.</li>
+          <li><b>Efficient Data Handling:</b> The memory reduction technique was essential for handling the 18GB dataset, enabling faster experimentation and model iteration.</li>
+        </ul>
+        <p>The success in this competition demonstrated the importance of pragmatic engineering solutions (memory optimization), robust validation strategies (time-series cross-validation), and adaptive modeling techniques (real-time fine-tuning) in quantitative finance applications.</p>
+    </div>
+<script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
+</body>
+</html>
