@@ -63,22 +63,37 @@
         }
 
         .site-navigation {
-            position: relative;
-            margin: 1rem auto 2rem;     /* space above/below */
+            position: sticky;
+            top: 0;
+            background: rgba(248, 248, 248, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #e0e0e0;
+            margin: 1rem auto 2rem;
+            padding: 0.8rem 0;
             display: flex;
-            justify-content: center;    /* center-align links */
-            flex-wrap: wrap; /* Allow links to wrap on smaller screens */
-            gap: 1em; /* Space between navigation items */
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.5em;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
         }
         .site-navigation a {
             color: #0056b3;
             text-decoration: none;
-            padding: 0.2em 0.5em;
+            padding: 0.4em 0.8em;
             font-size: 0.9em;
-            white-space: nowrap; /* Prevent links from breaking */
+            font-weight: 500;
+            white-space: nowrap;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            position: relative;
         }
         .site-navigation a:hover {
-            text-decoration: underline;
+            /* No hover effects - clean and simple */
+        }
+        .site-navigation a.active {
+            /* No active state styling - clean and simple */
         }
 
         h2 {
@@ -397,6 +412,59 @@ df_subm.to_csv("submission.csv")
         </ul>
         <p>The success on the private leaderboard, despite a public leaderboard shake-up caused by simpler, overfit hacks, underscored the importance of designing solutions that are robust to shifts in data distribution, particularly in time-series prediction tasks.</p>
     </div>
+    
+    <script>
+        // Smooth scrolling and active navigation highlighting
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.site-navigation a');
+            const sections = document.querySelectorAll('h2[id]');
+            
+            // Function to update active navigation link
+            function updateActiveNav() {
+                let current = '';
+                const scrollPos = window.scrollY + 100; // offset for sticky nav
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.offsetHeight;
+                    
+                    if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${current}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+            
+            // Update active nav on scroll
+            window.addEventListener('scroll', updateActiveNav);
+            
+            // Smooth scrolling for navigation links
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    
+                    if (targetSection) {
+                        const offsetTop = targetSection.offsetTop - 80; // account for sticky nav
+                        window.scrollTo({
+                            top: offsetTop,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Initial active nav update
+            updateActiveNav();
+        });
+    </script>
 <script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
 </body>
 </html> 
